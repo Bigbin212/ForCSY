@@ -1,0 +1,62 @@
+body,html {
+    height: 100%;
+    -webkit-tap-highlight-color: transparent
+}
+
+body {
+    font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+    background-color: #f8f8f8;
+    padding: 10px 0px 0px 0px;
+}
+
+.page__ft{
+    padding-top: 40px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.weui-cells__ft{
+	float: right;
+}
+
+.weui-icon-position{
+	display: inline-block;
+	height: 23px;
+	width: 23px;
+	font-size: 23px;
+	margin: 0px 0.2em;
+	background-image: url("../../img/weixin/position.png");
+	background-size: 100%;
+}
+
+.weui-icon-add_sm{
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	background-image: url("../../img/weixin/add_sm.png");
+	background-size: 100%;
+	margin-right: 2px;
+}
+
+.weui-icon-delete_sm{
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	background-image: url("../../img/weixin/delete.png");
+	background-size: 100%;
+	margin-right: 2px;
+	margin-top: -2px;
+}
+
+.icon_xzjsy{
+	margin-left: 0px;
+}
+
+A.addJsy{
+	display: inline-block;
+}
+
+.deleteJsy{
+	cursor: pointer;
+}
+

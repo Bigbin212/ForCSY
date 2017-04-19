@@ -105,6 +105,7 @@
 	<!-- 静态资源访问控制过滤器 -->
 	<mvc:resources mapping="/static/**" location="/static/"/> 
 	<mvc:resources mapping="/temp/**" location="/temp/"/>
+	<mvc:resources mapping="/**/MP_verify_HU5WcUmDKpJM4hle.txt" location="/mp/MP_verify_HU5WcUmDKpJM4hle.txt"/>
 	
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 		<property name="messageConverters">

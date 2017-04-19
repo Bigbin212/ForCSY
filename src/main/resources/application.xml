@@ -82,5 +82,6 @@
 		<aop:pointcut id="pc" expression="execution(* com.csy..service..*.*(..))" /> <!--把事务控制在Service层 -->
 		<aop:advisor pointcut-ref="pc" advice-ref="userTxAdvice" />
 	</aop:config>
-
+	
+	<import resource="classpath:task-beans.xml"/>
 </beans>

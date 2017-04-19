@@ -251,6 +251,12 @@
 			<version>2.4</version>
 			<classifier>jdk15</classifier>
 		</dependency>
+		<dependency>
+		    <groupId>com.github.pagehelper</groupId>
+		    <artifactId>pagehelper</artifactId>
+		    <version>3.2.3</version>
+		</dependency>
+				
 	</dependencies>
 	<build>
 		<finalName>ForCsy</finalName>

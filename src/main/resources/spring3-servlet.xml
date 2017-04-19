@@ -125,10 +125,11 @@
     </bean>
     
     <!-- MVC拦截器,会拦截静态资源 -->
-	<!-- 	<mvc:interceptors> -->
-	<!-- 		<mvc:interceptor>  -->
-	<!-- 			<mvc:mapping path="*.ms" />  -->
-	<!-- 			<bean class="com.esademo.utils.annotation.AuthPassportInterceptor"/>权限验证拦截器 -->
-	<!-- 		</mvc:interceptor> -->
-	<!-- 	</mvc:interceptors> -->
+	 	<mvc:interceptors> 
+	 		<mvc:interceptor>  
+        		<mvc:mapping path="/lose/**"/>
+        		<mvc:mapping path="/index/**"/>
+				<bean class="com.csy.module.wx.controller.CommonInterceptor"/><!--权限验证拦截器 -->
+	 		</mvc:interceptor> 
+	 	</mvc:interceptors> 
 </beans>

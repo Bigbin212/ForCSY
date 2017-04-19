@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
 	<!-- 数据库驱动 -->
-	<classPathEntry location="D:/Java/apache-maven-3.2.3/repository/mysql/mysql-connector-java/5.1.14/mysql-connector-java-5.1.14.jar" />
+	<classPathEntry location="E:/javaworkspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/ForCsy/WEB-INF/lib/mysql-connector-java-5.1.14.jar" />
 	<context id="csyDataBase" targetRuntime="MyBatis3">
 	
 		<commentGenerator>
@@ -44,7 +44,7 @@
 		</javaClientGenerator>
 		
 		<!-- 要生成的表名称 -->
-		<table tableName="b_wx_user" domainObjectName="BWxUser"
+		<table tableName="b_accident_info" domainObjectName="BAccidentInfo"
 			enableCountByExample="true" enableUpdateByExample="true"
 			enableDeleteByExample="true" enableSelectByExample="true"
 			selectByExampleQueryId="true"></table>

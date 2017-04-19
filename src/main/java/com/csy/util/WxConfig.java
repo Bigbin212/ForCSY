@@ -15,10 +15,30 @@ public class WxConfig {
 	
 	private String appsecret;
 	
+	private String resourceStore;
+	
+	private int downloadThreadNum;
+	
 	private String access_token;
 	
 	private String jsapi_ticket;
 	
+	public String getResourceStore() {
+		return resourceStore;
+	}
+
+	public void setResourceStore(String resourceStore) {
+		this.resourceStore = resourceStore;
+	}
+
+	public int getDownloadThreadNum() {
+		return downloadThreadNum;
+	}
+
+	public void setDownloadThreadNum(int downloadThreadNum) {
+		this.downloadThreadNum = downloadThreadNum;
+	}
+
 	public String getJsapi_ticket() {
 		return jsapi_ticket;
 	}
@@ -62,6 +82,8 @@ public class WxConfig {
 			properties = PropertiesLoaderUtils.loadAllProperties(WX_CONFIG_LOCAL);
 			WX_CONFIG.setAppid(properties.getProperty("appid"));
 			WX_CONFIG.setAppsecret(properties.getProperty("appsecret"));
+			WX_CONFIG.setDownloadThreadNum(Integer.parseInt(properties.getProperty("downloadThreadNum")));
+			WX_CONFIG.setResourceStore(properties.getProperty("resourceStore"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

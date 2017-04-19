@@ -1,0 +1,73 @@
+html, body{
+    height: 100%;
+    -webkit-tap-highlight-color: transparent
+}
+
+body {
+    font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+}
+
+.main{
+	position: absolute;
+	top: 10%;
+	left: 10%;
+	right: 10%;
+	bottom: 10%;
+	max-width: 400px;
+	margin: 0 auto;
+}
+
+.mainBg{
+	position: relative;
+	left: 50%;
+	width: 80%;
+	margin-left: -40%;
+}
+
+.main .button-sp-area{
+	margin-top: 10%;
+}
+
+.button-sp-area .weui-btn{
+	margin-bottom: 10%;
+	height: 50px;
+	border-radius: 25px;
+}
+
+.button-sp-area .weui-btn:after{
+	border: none;
+}
+
+.button-sp-area .weui-btn.btn1{
+	border: 3px solid rgba(102,179,73,0.4);
+}
+
+.button-sp-area .weui-btn .content{
+	position: relative;
+	z-index: 10;
+}
+
+.button-sp-area .weui-btn.btn1:after{
+	background-image: -webkit-linear-gradient(bottom,rgba(102,179,73,1), rgba(123,208,91,1));
+  	background-image: -o-linear-gradient(bottom,rgba(102,179,73,1), rgba(123,208,91,1));
+  	background-image: -moz-linear-gradient(bottom,rgba(102,179,73,1), rgba(123,208,91,1));
+  	background-image: linear-gradient(to bottom, rgba(102,179,73,1), rgba(123,208,91,1));
+}
+
+.button-sp-area .weui-btn.btn2{
+	border: 3px solid rgba(206,216,231,0.4);
+}
+
+.button-sp-area .weui-btn.btn2:after{
+	background: -webkit-linear-gradient(bottom,rgba(206,216,231,1), rgba(237,240,246,1));
+  	background: -o-linear-gradient(bottom,rgba(206,216,231,1), rgba(237,240,246,1));
+  	background: -moz-linear-gradient(bottom,rgba(206,216,231,1), rgba(237,240,246,1));
+  	background: linear-gradient(to bottom, rgba(206,216,231,1), rgba(237,240,246,1));
+}
+
+.button-sp-area .weui-btn.btn2 .content{
+	color: #000;
+}
+
+
+

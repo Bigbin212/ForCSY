@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>欢迎使用快处快赔</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+        <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.1/weui.min.css"/>
+		<link rel="stylesheet" href="${springPath}/static/css/weixin/index.css"/>
+        
+	</head>
+	<body ontouchstart>
+		<div class="main">
+			<img class="mainBg" src="${springPath}/static/img/weixin/index_main.png"/>
+			
+			<div class="button-sp-area">
+                <a href="./kckp" class="weui-btn btn1" target="_blank"><span class='content'>新增快处快赔</span></a>
+				<a href="./myRecord" class="weui-btn btn2" target="_blank"><span class='content'>我的报案记录</span></a>
+            </div>
+			
+			<div class="weui-footer">
+                <p class="weui-footer__links">
+                    <a href="${springPath}/wx/fkyj/index" class="weui-footer__link">意见反馈</a>
+                </p>
+                <p class="weui-footer__text">Copyright @ 2017-2020 pikaka.iego.cn</p>
+            </div>
+		</div>
+		<script src="${springPath}/static/js/weixin/zepto.min.js"></script>
+	</body>
+</html>

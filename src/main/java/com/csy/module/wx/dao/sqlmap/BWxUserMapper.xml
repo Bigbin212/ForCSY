@@ -273,4 +273,17 @@
       unionid = #{unionid,jdbcType=VARCHAR}
     where openid = #{openid,jdbcType=VARCHAR}
   </update>
+  <select id="selectByParam" resultMap="BaseResultMap" parameterType="com.csy.module.wx.entity.BWxUser" >
+    select 
+    <include refid="Base_Column_List" />
+    from b_wx_user
+    <where>
+    	<if test="nickname != null and nickname != ''" >
+        	and nickname like concat(concat('%',#{nickname,jdbcType=VARCHAR}),'%')
+      	</if>
+      	<if test="openid != null and openid != ''" >
+        	and openid = #{openid,jdbcType=VARCHAR}
+      	</if>
+    </where>
+  </select>
 </mapper>

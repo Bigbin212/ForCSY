@@ -1,5 +1,5 @@
 var rootPath = function(){
-	return '/ForCsy/mp';
+	return '/ForCsy';
 }();
 
 $(function(){

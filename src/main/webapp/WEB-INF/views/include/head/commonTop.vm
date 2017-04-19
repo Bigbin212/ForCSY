@@ -1,6 +1,6 @@
 <div style="height:45px;">
 	<div class="head_wrapper">
-	    <div class="container">
+	    <div class="container" style="width:100%;margin-left: 0px;margin-right: 0px;">
 	    	<div class="row">
 	    		<div class="col-lg-6 col-md-6">
 					<div class="pull-left">
@@ -10,6 +10,9 @@
 	    		<div class="col-lg-6 col-md-6">
 					<div class="pull-right">
 						<div class="btn-group btn-group-xs">
+			    			<div style="cursor:pointer;padding-top: 5px;float: left;" onclick="openNewWindow()">
+			    				<font color='#41D4FF'>反馈意见</font>
+			    			</div>
 							#if($user)
 								<div class="usermenu" style="display:inline-block;">
 									<button id="user-name" class="btn btn-xs btn-link" >
@@ -22,10 +25,10 @@
 										</span>
 			                            <div class="xs-popover-content">
 											<div class="list-group">
-												<a href="${springPath}/${user.id}/cZone" class="list-group-item">个人中心</a>
+												<!-- <a href="${springPath}/${user.id}/cZone" class="list-group-item">个人中心</a>
 												<a href="${springPath}/setting/profile" class="list-group-item">帐号设置</a>
-												<a href="${springPath}/index" class="list-group-item">意见反馈</a>
-												<a href="${springPath}/logout" class="list-group-item">注销登录</a>
+												<a href="${springPath}/index" class="list-group-item">意见反馈</a> -->
+												<a href="${springPath}/login" class="list-group-item">注销登录</a>
 											</div>
 			                            </div>
 		                            </div>

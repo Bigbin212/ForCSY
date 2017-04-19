@@ -5,10 +5,8 @@
  */
 $(function(){
 	
-	alert("snsapi_userinfo");
-	
 	var appid = $("#wx_appid").val();
-	var redirect_uri = "http://pikaka.iego.cn/ForCsy/wx/kckp";
+	var redirect_uri = "http://pikaka.iego.cn/ForCsy/wx/index";
 	var scope = "snsapi_userinfo";
 	var accessUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+
 			"&redirect_uri="+ encodeURIComponent(redirect_uri) +"&response_type=code" +

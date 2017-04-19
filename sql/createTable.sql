@@ -1,3 +1,8 @@
+-- 先整理数据库
+drop database if exists  `csy`;
+create database `csy`;
+use `csy`;
+
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: csy
@@ -111,7 +116,7 @@ DROP TABLE IF EXISTS `b_xtpz_dmx`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `b_xtpz_dmx` (
-  `id` int(10) NOT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `dmlxbh` int(10) NOT NULL COMMENT '外键 代码类型英文名',
   `dmxywm` varchar(32) NOT NULL COMMENT '代码项英文名',
   `dmxzwm` varchar(32) NOT NULL COMMENT '代码项中文名',
@@ -127,6 +132,19 @@ CREATE TABLE `b_xtpz_dmx` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='代码项管理';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+-- ----------------------------
+-- Table structure for `b_xtpz`
+-- ----------------------------
+DROP TABLE IF EXISTS `b_qj_xtpz`;
+CREATE TABLE `b_qj_xtpz` (
+  `id` int(32) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `name` varchar(32) NOT NULL COMMENT '变量名',
+  `name_cn` varchar(32) DEFAULT NULL COMMENT '变量中文名',
+  `val` varchar(128) DEFAULT NULL COMMENT '变量对应的配置值',
+  `expand` varchar(128) DEFAULT NULL COMMENT '代码项扩展',
+  `description` varchar(256) DEFAULT NULL COMMENT '代码项描述',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Table structure for table `b_wx_user`
@@ -149,72 +167,64 @@ CREATE TABLE `b_wx_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='微信用户存储表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping routines for database 'csy'
---
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2016-09-21 17:18:22
-SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 -- Table structure for `b_accident_driver`
 -- ----------------------------
 DROP TABLE IF EXISTS `b_accident_driver`;
 CREATE TABLE `b_accident_driver` (
-  `eventId` varchar(32) NOT NULL COMMENT '事件id 关联事件表',
-  `driverId` varchar(32) DEFAULT NULL COMMENT '驾驶员id 关联驾驶员表',
-  `duty` varchar(32) DEFAULT NULL COMMENT '责任类型(1代表全员)',
-  `id` varchar(32) NOT NULL COMMENT '主键id',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` varchar(64) NOT NULL COMMENT '事件id 关联事件表',
+  `fk_driver_id` varchar(64) DEFAULT NULL COMMENT '驾驶员id 关联驾驶员表',
+  `duty` varchar(32) DEFAULT NULL COMMENT '责任类型(1代表全员)'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='事件关联表';
 
--- ----------------------------
--- Records of b_accident_driver
--- ----------------------------
 
-SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 -- Table structure for `b_driver_info`
 -- ----------------------------
 DROP TABLE IF EXISTS `b_driver_info`;
 CREATE TABLE `b_driver_info` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '驾驶员id',
+  `id` varchar(64) NOT NULL COMMENT 'id',
   `name` varchar(32) DEFAULT NULL COMMENT '驾驶员姓名',
-  `licenseId` varchar(18) DEFAULT NULL COMMENT '驾驶证证号',
-  `drivingId` varchar(32) DEFAULT NULL COMMENT '驾驶员行驶证号',
+  `IDCard` varchar(18) DEFAULT NULL COMMENT '驾驶证证号(身份证号)',
+  `vehicleLicense` varchar(32) DEFAULT NULL COMMENT '车辆行驶证号',
   `hphm` varchar(32) DEFAULT NULL COMMENT '号牌号码',
-  `licenseImage` varchar(256) DEFAULT NULL COMMENT '驾驶证图片，多个图片用逗号隔开',
-  `drivingImage` varchar(256) DEFAULT NULL COMMENT '行驶证图片，多张图片以逗号隔开',
+  `IDCardImage` varchar(256) DEFAULT NULL COMMENT '驾驶证图片，多个图片用逗号隔开',
+  `vehicleLicenseImage` varchar(256) DEFAULT NULL COMMENT '车辆行驶证图片，多张图片以逗号隔开',
+  `contact` varchar(32) DEFAULT NULL COMMENT '联系方式',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='事件联系人信息';
 
--- ----------------------------
--- Records of b_driver_info
--- ----------------------------
-SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
 -- Table structure for `b_accident_info`
 -- ----------------------------
 DROP TABLE IF EXISTS `b_accident_info`;
 CREATE TABLE `b_accident_info` (
-  `id` varchar(32) NOT NULL COMMENT '事故id',
-  `occurrence_time` date DEFAULT NULL COMMENT '事故发生的时间',
+  `id` varchar(64) NOT NULL COMMENT '事故id',
+  `fk_wx_openid` varchar(64) NOT NULL COMMENT '上传者微信openID',
+  `occurrence_time` datetime DEFAULT NULL COMMENT '事故发生的时间',
   `longitude` varchar(128) DEFAULT NULL COMMENT '事故发生的地点的经度',
   `latitude` varchar(128) DEFAULT NULL COMMENT '事故发生地点的纬度',
-  `live_image` varchar(256) DEFAULT NULL COMMENT '现场拍照的事故图片，多个以逗号隔开，目前最多支持10张',
-  `upload_time` date DEFAULT NULL COMMENT '事故上传时间',
+  `duty` varchar(32) DEFAULT NULL COMMENT '事故责任',
+  `live_image` varchar(1024) DEFAULT NULL COMMENT '现场拍照的事故图片，多个以逗号隔开，目前最多支持10张',
+  `live_voice` varchar(1024) DEFAULT NULL COMMENT '现场拍照的事故录音，多个以逗号隔开，目前最多支持3个录音',
+  `upload_time` datetime DEFAULT NULL COMMENT '事故上传时间',
+  `description` varchar(256) DEFAULT NULL COMMENT '事故描述',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='事故信息表';
+
 
 -- ----------------------------
--- Records of b_accident_info
+-- Table structure for `b_wx_fkyj`
 -- ----------------------------
+DROP TABLE IF EXISTS `b_wx_fkyj`;
+CREATE TABLE `csy`.`b_wx_fkyj` (
+  `id` VARCHAR(64) NOT NULL COMMENT '主键Key',
+  `openid` VARCHAR(64) NOT NULL COMMENT '微信用户ID',
+  `type` INT(10) NULL COMMENT '反馈类型',
+  `image` VARCHAR(1024) NULL COMMENT '错误图例 (多张图片以分隔符,隔开)',
+  `description` VARCHAR(128) NULL COMMENT '描述信息',
+  `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '提交时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = '反馈意见表';

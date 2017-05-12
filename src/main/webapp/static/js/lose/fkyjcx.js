@@ -13,7 +13,7 @@ function initResize(){
 	var  winHeight = $(window).height();//窗口高度
 	$(".whole-div").width(winWidth); //整体的宽度
 	$(".whole-div").height(winHeight);//整体的高度
-	$(".main-top").height((winHeight/100)*19);//整体的高度
+	$(".main-top").height((winHeight/100)*20);//整体的高度
 	$('#dataGrid').height($('.main-top').height() - $('.titleDiv').height());
 	$('.znjt-search-table').height($('#dataGrid').height());
 	$('.main-top1').height($('.whole-div').height() - $('.main-top').height()-35);
@@ -67,6 +67,7 @@ function getParam(flag){
 }
 function init(){
 	var param = getParam(false);
+	$(".container").showLoading();
 	makeFishBone(param);
 }
 function makeFishBone(param){
@@ -80,8 +81,10 @@ function makeFishBone(param){
 				alert(data.error);
 				return ;
 			}else{
+				$(".container").hideLoading();
 				if(data.rows.length == 0){
 					alert("没有查询到数据");
+					return ;
 				}
 				$(".fishBone").fishBone(data.rows);
 				$(".tempWrap").height($(".container").height());

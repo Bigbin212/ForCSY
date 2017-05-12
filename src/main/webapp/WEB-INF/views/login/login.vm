@@ -106,12 +106,12 @@
             <div class="section" style="background-image:url('${springPath}/static/img/login/login/T4.jpg');">
 			</div> -->
         </div>
+        
 		<script src="${springPath}/static/plugins/jquery/dist/jquery.min.js"></script>
 		<script src="${springPath}/static/plugins/bootstrap/dist/js/bootstrap.min.js"></script>
-		<script src="${springPath}/static/plugins/bootstrapValidate/dist/js/bootstrapValidator.min.js"></script> 
 		<script src="${springPath}/static/plugins/fullPage/jquery.fullpage.min.js"></script>
 		<script src="${springPath}/static/js/common/common.js"></script>
 		<script src="${springPath}/static/js/login/login.js"></script>
-    		
+    	
 	</body>
 </html>

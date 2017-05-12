@@ -2,7 +2,6 @@ package com.csy.module.wx.entity;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 public class BAccidentInfoExample {
@@ -104,32 +103,6 @@ public class BAccidentInfoExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
-            if (value == null) {
-                throw new RuntimeException("Value for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value.getTime()), property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
-            if (values == null || values.size() == 0) {
-                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
-            }
-            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
-            Iterator<Date> iter = values.iterator();
-            while (iter.hasNext()) {
-                dateList.add(new java.sql.Date(iter.next().getTime()));
-            }
-            addCriterion(condition, dateList, property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
-            if (value1 == null || value2 == null) {
-                throw new RuntimeException("Between values for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -283,52 +256,52 @@ public class BAccidentInfoExample {
         }
 
         public Criteria andOccurrenceTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("occurrence_time =", value, "occurrenceTime");
+            addCriterion("occurrence_time =", value, "occurrenceTime");
             return (Criteria) this;
         }
 
         public Criteria andOccurrenceTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("occurrence_time <>", value, "occurrenceTime");
+            addCriterion("occurrence_time <>", value, "occurrenceTime");
             return (Criteria) this;
         }
 
         public Criteria andOccurrenceTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("occurrence_time >", value, "occurrenceTime");
+            addCriterion("occurrence_time >", value, "occurrenceTime");
             return (Criteria) this;
         }
 
         public Criteria andOccurrenceTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("occurrence_time >=", value, "occurrenceTime");
+            addCriterion("occurrence_time >=", value, "occurrenceTime");
             return (Criteria) this;
         }
 
         public Criteria andOccurrenceTimeLessThan(Date value) {
-            addCriterionForJDBCDate("occurrence_time <", value, "occurrenceTime");
+            addCriterion("occurrence_time <", value, "occurrenceTime");
             return (Criteria) this;
         }
 
         public Criteria andOccurrenceTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("occurrence_time <=", value, "occurrenceTime");
+            addCriterion("occurrence_time <=", value, "occurrenceTime");
             return (Criteria) this;
         }
 
         public Criteria andOccurrenceTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("occurrence_time in", values, "occurrenceTime");
+            addCriterion("occurrence_time in", values, "occurrenceTime");
             return (Criteria) this;
         }
 
         public Criteria andOccurrenceTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("occurrence_time not in", values, "occurrenceTime");
+            addCriterion("occurrence_time not in", values, "occurrenceTime");
             return (Criteria) this;
         }
 
         public Criteria andOccurrenceTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("occurrence_time between", value1, value2, "occurrenceTime");
+            addCriterion("occurrence_time between", value1, value2, "occurrenceTime");
             return (Criteria) this;
         }
 
         public Criteria andOccurrenceTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("occurrence_time not between", value1, value2, "occurrenceTime");
+            addCriterion("occurrence_time not between", value1, value2, "occurrenceTime");
             return (Criteria) this;
         }
 
@@ -693,52 +666,52 @@ public class BAccidentInfoExample {
         }
 
         public Criteria andUploadTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("upload_time =", value, "uploadTime");
+            addCriterion("upload_time =", value, "uploadTime");
             return (Criteria) this;
         }
 
         public Criteria andUploadTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("upload_time <>", value, "uploadTime");
+            addCriterion("upload_time <>", value, "uploadTime");
             return (Criteria) this;
         }
 
         public Criteria andUploadTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("upload_time >", value, "uploadTime");
+            addCriterion("upload_time >", value, "uploadTime");
             return (Criteria) this;
         }
 
         public Criteria andUploadTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("upload_time >=", value, "uploadTime");
+            addCriterion("upload_time >=", value, "uploadTime");
             return (Criteria) this;
         }
 
         public Criteria andUploadTimeLessThan(Date value) {
-            addCriterionForJDBCDate("upload_time <", value, "uploadTime");
+            addCriterion("upload_time <", value, "uploadTime");
             return (Criteria) this;
         }
 
         public Criteria andUploadTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("upload_time <=", value, "uploadTime");
+            addCriterion("upload_time <=", value, "uploadTime");
             return (Criteria) this;
         }
 
         public Criteria andUploadTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("upload_time in", values, "uploadTime");
+            addCriterion("upload_time in", values, "uploadTime");
             return (Criteria) this;
         }
 
         public Criteria andUploadTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("upload_time not in", values, "uploadTime");
+            addCriterion("upload_time not in", values, "uploadTime");
             return (Criteria) this;
         }
 
         public Criteria andUploadTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("upload_time between", value1, value2, "uploadTime");
+            addCriterion("upload_time between", value1, value2, "uploadTime");
             return (Criteria) this;
         }
 
         public Criteria andUploadTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("upload_time not between", value1, value2, "uploadTime");
+            addCriterion("upload_time not between", value1, value2, "uploadTime");
             return (Criteria) this;
         }
 
@@ -809,6 +782,146 @@ public class BAccidentInfoExample {
 
         public Criteria andDescriptionNotBetween(String value1, String value2) {
             addCriterion("description not between", value1, value2, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadIndexIsNull() {
+            addCriterion("imgReUpload_index is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadIndexIsNotNull() {
+            addCriterion("imgReUpload_index is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadIndexEqualTo(String value) {
+            addCriterion("imgReUpload_index =", value, "imgreuploadIndex");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadIndexNotEqualTo(String value) {
+            addCriterion("imgReUpload_index <>", value, "imgreuploadIndex");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadIndexGreaterThan(String value) {
+            addCriterion("imgReUpload_index >", value, "imgreuploadIndex");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadIndexGreaterThanOrEqualTo(String value) {
+            addCriterion("imgReUpload_index >=", value, "imgreuploadIndex");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadIndexLessThan(String value) {
+            addCriterion("imgReUpload_index <", value, "imgreuploadIndex");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadIndexLessThanOrEqualTo(String value) {
+            addCriterion("imgReUpload_index <=", value, "imgreuploadIndex");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadIndexLike(String value) {
+            addCriterion("imgReUpload_index like", value, "imgreuploadIndex");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadIndexNotLike(String value) {
+            addCriterion("imgReUpload_index not like", value, "imgreuploadIndex");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadIndexIn(List<String> values) {
+            addCriterion("imgReUpload_index in", values, "imgreuploadIndex");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadIndexNotIn(List<String> values) {
+            addCriterion("imgReUpload_index not in", values, "imgreuploadIndex");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadIndexBetween(String value1, String value2) {
+            addCriterion("imgReUpload_index between", value1, value2, "imgreuploadIndex");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadIndexNotBetween(String value1, String value2) {
+            addCriterion("imgReUpload_index not between", value1, value2, "imgreuploadIndex");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadedIndexIsNull() {
+            addCriterion("imgReUploaded_index is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadedIndexIsNotNull() {
+            addCriterion("imgReUploaded_index is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadedIndexEqualTo(String value) {
+            addCriterion("imgReUploaded_index =", value, "imgreuploadedIndex");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadedIndexNotEqualTo(String value) {
+            addCriterion("imgReUploaded_index <>", value, "imgreuploadedIndex");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadedIndexGreaterThan(String value) {
+            addCriterion("imgReUploaded_index >", value, "imgreuploadedIndex");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadedIndexGreaterThanOrEqualTo(String value) {
+            addCriterion("imgReUploaded_index >=", value, "imgreuploadedIndex");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadedIndexLessThan(String value) {
+            addCriterion("imgReUploaded_index <", value, "imgreuploadedIndex");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadedIndexLessThanOrEqualTo(String value) {
+            addCriterion("imgReUploaded_index <=", value, "imgreuploadedIndex");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadedIndexLike(String value) {
+            addCriterion("imgReUploaded_index like", value, "imgreuploadedIndex");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadedIndexNotLike(String value) {
+            addCriterion("imgReUploaded_index not like", value, "imgreuploadedIndex");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadedIndexIn(List<String> values) {
+            addCriterion("imgReUploaded_index in", values, "imgreuploadedIndex");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadedIndexNotIn(List<String> values) {
+            addCriterion("imgReUploaded_index not in", values, "imgreuploadedIndex");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadedIndexBetween(String value1, String value2) {
+            addCriterion("imgReUploaded_index between", value1, value2, "imgreuploadedIndex");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgreuploadedIndexNotBetween(String value1, String value2) {
+            addCriterion("imgReUploaded_index not between", value1, value2, "imgreuploadedIndex");
             return (Criteria) this;
         }
     }

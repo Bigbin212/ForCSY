@@ -26,7 +26,9 @@
     								ng-init="info.position='获取中，请稍候...';formatterPosition(info)" ng-bind="info.position"></h4>
                                 <p class="weui-media-box__desc" ng-bind="info.duty || '无事故责任描述'"></p>
                             </div>
-							<div class="weui-cell__ft">
+							<div class="weui-cell__ft" style="font-size: 0">
+								<span ng-show="info.imgreuploadIndex != info.imgreuploadedIndex"
+									class="weui-badge weui-badge_dot" style="margin-left: 5px;margin-right: 5px;"></span>
                             </div>
                         </div>
                     </div>
@@ -100,26 +102,59 @@
     			<br/>
     			<div class="weui-form-preview">
                     <div class="weui-form-preview__bd">
-                        <div class="weui-form-preview__item">
+                        <div class="weui-form-preview__item" style="margin-bottom:5px;">
                             <label class="weui-form-preview__label">事故图片</label>
+							
+							<span class="weui-cells__ft union-btn" ng-init="editUploder=false" ng-hide="editUploder || addImgCnt==0" 
+            					ng-click="editUploder=!editUploder">
+            					<span class="weui-icon-modify_sm"></span>编辑
+            				</span>
+            				
+            				<span class="weui-cells__ft union-btn" ng-hide="!editUploder" 
+            					ng-click="editUploder=!editUploder">
+            					<span class="weui-icon-success_sm"></span>完成
+            				</span>
                         </div>
                         <div class="weui-form-preview__item">
     						<div ng-show="imgUrls.length==0"></div>
-    						<div class="weui-cell__bd" ng-show="imgUrls.length>0">
+    						<div class="weui-cell__bd" ng-show="xxtps.length>0">
     							<div class="weui-uploader">
     								<div class="weui-uploader__bd">
     									<ul class="weui-uploader__files">
-    										<li class="weui-uploader__file" ng-class="{'weui-uploader__file_status':!img.cacheSuccess}" 
-    											ng-repeat="img in imgUrls"
-    											style="background-image:url('{{img.src}}');" ng-click="imgClick(img.src);">
-        										<div>
-                                                    <div class="weui-uploader__file-content">
-                                                        <i  class="weui-loading"></i>
-                                                    </div>
+    										<li class="weui-uploader__file uploaderFile" 
+												ng-class="{
+													'weui-uploader__file_status':!xxtp.uploadSuccess || xxtp.errPic,
+													'shake-little': editUploder && xxtp.newUpload}"
+        										ng-repeat="xxtp in xxtps" 
+        										ng-click="picClick($index)"
+        										ng-style="{'background-image':'url('+ (xxtp.iosUploadUrl || xxtp.uploadUrl)+')'}">
+    										<div ng-hide="editUploder">
+                                                <div ng-hdie="xxtp.uploadSuccess" class="weui-uploader__file-content">
+                                                    <i ng-show="xxtp.uploadError && !xxtp.uploadWaiting" class="weui-icon-warn"></i>
+                                                    <i ng-show="xxtp.uploadWaiting" class="weui-loading"></i>
                                                 </div>
-											</li>
-                                        </ul>
+                                            </div>
+											<div ng-show="xxtp.errPic">
+												<div class="weui-uploader_file-errPic">无&nbsp;效</div>
+											</div>
+    										<div class="deleteUploadDiv" ng-show="editUploder && xxtp.newUpload"
+												ng-click="deletePic($event, $index)">
+    											<span class="weui-icon-delete1_sm deleteUpload"></span>
+                                            </div>
+                                        </li>
+										
+                                        <div class="weui-uploader__input-box" ng-hide="addImgUrl.length == addImgCnt || editUploder">
+                                            <input class="weui-uploader__input"
+        										type="button" accept="image/*" multiple="" ng-click="uploadImgLocal()">
+                                        </div>
                                     </div>
+                                </div>
+                                <div class="weui-uploader__ft" ng-show="addImgCnt>0" style="color:red;">
+    								<input ng-model="xxtps.length" type="hidden" name="xxtpNum"/>
+    								<div class="weui-textarea-counter">
+                                        <span style="float:left;">还需上传<span ng-bind="addImgCnt-addImgUrl.length"></span>张图片</span>
+        								<span ng-bind="addImgUrl.length"></span>/{{addImgCnt}}
+    								</div>
                                 </div>
                             </div>
                         </div>
@@ -130,7 +165,7 @@
     			
     			<div class="weui-form-preview">
                     <div class="weui-form-preview__bd">
-                        <div class="weui-form-preview__item">
+                        <div class="weui-form-preview__item" style="margin-bottom:5px;">
                             <label class="weui-form-preview__label">事故语音</label>
                         </div>
                         <div class="weui-form-preview__item">
@@ -152,6 +187,20 @@
                         </div>
                     </div>
                 </div>
+				
+    			<div class="weui-btn-area" ng-show="addImgCnt>0">
+        			<a href="javascript:;" class="weui-btn weui-btn_primary" 
+    					ng-init="submitting=false;submitted=false;" 
+    					ng-class="{'weui-btn_disabled':(submitted || submitting || addImgUrl.length<addImgCnt)
+    						,'weui-btn_loading':submitted}" 
+    					ng-disabled="submitted || submitting || addImgUrl.length<addImgCnt" 
+    					ng-click="submit()"> 
+    					<i class="weui-loading" ng-show="submitting"></i>
+    					<span ng-if="submitted">已提交</span>
+    					<span ng-if="submitting">正在提交...</span>
+    					<span ng-if="!(submitted || submitting)">提交</span>
+    				</a>
+                </div>
             </div>
         </script>
 		
@@ -160,6 +209,7 @@
         <script src="${springPath}/static/plugins/angularJS/angular-ui-router.js"></script>
 		<script src="${springPath}/static/plugins/angularJS/angular-validation.js"></script>
 		<script src="${springPath}/static/plugins/angularJS/angular-validation-rule.js"></script>
+        <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 		<script src="http://map.qq.com/api/js?v=2.exp"></script>
 		<script src="${springPath}/static/js/common/util.js"></script>
 		<script src="${springPath}/static/js/common/wx-common.js"></script>

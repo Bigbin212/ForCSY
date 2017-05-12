@@ -7,6 +7,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 	<link rel="stylesheet" href="${springPath}/static/css/common/ued.css"/>
+	<link rel="stylesheet" href="${springPath}/static/showLoading/showLoading.css"/>
 	<link href="${springPath}/static/plugins/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="${springPath}/static/css/common/common.css" rel="stylesheet">
 	<style>
@@ -98,6 +99,7 @@
 <script src="${springPath}/static/plugins/jquery/dist/jquery.min.js"></script>
 <script src="${springPath}/static/DatePicker/WdatePicker.js"></script>
 <script src="${springPath}/static/js/common/common.js"></script>
+<script src="${springPath}/static/showLoading/jquery.showLoading.min.js"></script>
 <script src="${springPath}/static/js/lose/kckpcx.js"></script>
 <script src="${springPath}/static/plugins/bootstrap/dist/js/bootstrap.min.js"></script>
 <script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp"></script>

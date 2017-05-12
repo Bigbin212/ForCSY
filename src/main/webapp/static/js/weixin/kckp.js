@@ -3,7 +3,6 @@
  * @author wangqiang
  * @description
  */
-
 var app = angular.module("myApp", ["ngTouch","ui.router","validation.rule","validation"]);
 
 app.config(function($validationProvider){
@@ -449,21 +448,43 @@ app.controller("myCtrl", function($scope, $state, $timeout, $interval, $http, $i
 		        		alert("最多可上传十张图片!");
 		        		break;
 		        	}
-		        	$scope.$apply(function(){
-		        		$scope.xxtps.push({
-			        		uploadUrl: localIds[i],
-			        		uploadSuccess: false,
-			        		uploadError: 0,
-			        		uploadWaiting: true,
-			        		uploading: false,
-			        		serverId: undefined
-			        	});
-		        		
-		        		$scope.registerForm.xxtpNum.$pristine = false;
-		        		$scope.registerForm.xxtpNum.$dirty = true;
-		        	});
+		        	$scope.$apply(function(i){
+		        		return function(){
+			        		if(window.__wxjs_is_wkwebview){
+			        			wx.getLocalImgData({
+			        				localId: localIds[i], // 图片的localID
+			        				success: function (res) {
+			        					$scope.$apply(function(){
+				        					var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+				        					$scope.xxtps.push({
+				        						iosUploadUrl: localData,
+								        		uploadUrl: localIds[i],
+								        		uploadSuccess: false,
+								        		uploadError: 0,
+								        		uploadWaiting: true,
+								        		uploading: false
+								        	});
+							        		if(i==localIds.length-1){
+							    		        uploadImageList(localIds);
+							        		}
+			        					});
+			        				}
+			        			});
+			        		}else{
+				        		$scope.xxtps.push({
+					        		uploadUrl: localIds[i],
+					        		uploadSuccess: false,
+					        		uploadError: 0,
+					        		uploadWaiting: true,
+					        		uploading: false
+					        	});
+				        		if(i==localIds.length-1){
+				    		        uploadImageList(localIds);
+				        		}
+			        		}
+		        		};
+		        	}(i));
 		        }
-		        uploadImageList(localIds);
 		    }
 		});
 	};

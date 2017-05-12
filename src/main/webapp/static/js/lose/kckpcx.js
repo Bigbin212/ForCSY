@@ -84,6 +84,7 @@ function btnSearch(){
 	if($('#hphmInput').val() != "" && $('#hphmInput').val() != null){
 		hphm = hphm + $('#hphmInput').val();
 	}
+	$('#mainDiv1').showLoading();
 	$.ajax({
 		type: "post",
 		url: rootPath + "/kckpcx",
@@ -94,16 +95,17 @@ function btnSearch(){
 			hphm:hphm
 		},
 		dataType: "json",
-		async: false,
 		success: function(data){
 			if(data.error != ""){
 				alert(data.error);
 				return ;
 			}else{
+				$('#mainDiv1').hideLoading();
 				$("#mainDiv1").empty(); 
 				$("#mainDiv2").empty();
-				if(data.length == 0){
+				if(data.data.length == 0){
 					alert("没有查询到数据");
+					return ;
 				}
 				makeLeftTable(data);
 			}
@@ -171,18 +173,21 @@ function onClick(value,data,e){
 //根据地图上面的经纬度来获取具体城市坐在位置名称
 var sgwzmc = "";
 function codeLatLng(data){
-	var geocoder = new qq.maps.Geocoder();
-	var latLng = new qq.maps.LatLng(data.sgwd,data.sgjd);
-	geocoder.getAddress(latLng);//对指定经纬度进行解析
-	geocoder.setComplete(function(result) {
-		sgwzmc = result.detail.address;
-		makeRightLane(data);
-     });
-	//若服务请求失败，则运行以下函数
-    geocoder.setError(function() {
-       alert("出错了，请输入正确的经纬度！！！");
-    });
-
+	$("#mainDiv2").showLoading();
+//	var geocoder = new qq.maps.Geocoder();
+//	var latLng = new qq.maps.LatLng(data.sgwd,data.sgjd);
+//	geocoder.getAddress(latLng);//对指定经纬度进行解析
+//	geocoder.setComplete(function(result) {
+//		console.info(result);
+//		sgwzmc = result.detail.address;
+//		makeRightLane(data);
+//		$("#mainDiv2").hideLoading();
+//     });
+//	//若服务请求失败，则运行以下函数
+//    geocoder.setError(function() {
+//       alert("出错了，请输入正确的经纬度！！！");
+//    });
+    getgisInfo(data);
 }
 //点击图片进行放大
 function onClickImage(e,url){
@@ -362,4 +367,26 @@ function change(data){
 }
 function changeEx(data){
 	$("#sgwzmc").html(sgwzmc+"<span style='float:right;color:#41D4FF;cursor:pointer;'onclick='change("+JSON.stringify(data)+")'>位置切换</span>");
+}
+//根据经纬度调用腾讯地图获取具体位置信息
+function getgisInfo(info){
+	 var data={location:info.sgwd+"," +info.sgjd,key:"5RTBZ-NPL3I-LK4GF-5FXGZ-EW2SH-VDFU2",get_poi:0};
+     var url="http://apis.map.qq.com/ws/geocoder/v1/?";
+     data.output="jsonp";  
+     $.ajax({
+        type:"get",
+        dataType:'jsonp',
+        data:data,
+        jsonp:"callback",
+        jsonpCallback:"QQmap",
+        url:url,
+        success:function(json){
+	     sgwzmc = json.result.address_component.province + json.result.address_component.city + json.result.formatted_addresses.recommend;
+	     makeRightLane(info);
+		 $("#mainDiv2").hideLoading(); 	 
+        },
+        error : function(err){
+       	 	alert("服务端错误，请刷新浏览器后重试");
+        }
+	});
 }

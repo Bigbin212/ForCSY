@@ -1,12 +1,11 @@
 package com.csy.module.wx.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
-import net.sf.json.JSONObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +33,8 @@ import com.csy.util.wx.queue.FileQueue;
 import com.csy.util.wx.queue.FileQueue.FileDescription;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
+import net.sf.json.JSONObject;
 
 /**
  * @author wangqiang
@@ -92,6 +93,42 @@ public class BAccidentInfoServiceImpl extends BaseService<BAccidentInfo, BAccide
 		return accidentInfos;
 	}
 	
+ @Override
+ public JSONObject updateAccident(String id, String... wxIds){
+   JSONObject rtnObj = new JSONObject();
+   BAccidentInfo info = accidentDao.selectByPrimaryKey(id);
+   if(info == null){
+     rtnObj.put("errMsg", "记录无效");
+   }else{
+     List<String> liveImage2;
+     if(!StringUtils.isTrimEmpty(info.getLiveImage())){
+       liveImage2 = new ArrayList<String>(Arrays.asList(info.getLiveImage().split(",")));
+     }else{
+       liveImage2 = new ArrayList<String>();
+     }
+     
+     List<String> newUpload2 = new ArrayList<String>();
+     
+     for(String wxId : wxIds){
+       String newLiveImage = new StringBuffer().append(UUID.randomUUID().toString()).append(".jpg").toString();
+       FileDescription fileDetail = FileQueue.getInstance()
+           .new FileDescription(wxId, info.getFkWxOpenid(), newLiveImage ,WxFileEnum.IMAGE, info.getUploadTime());
+       FileQueue.getInstance().add(fileDetail);
+       newUpload2.add(newLiveImage);
+     }
+     
+     liveImage2.addAll(newUpload2);
+     
+     BAccidentInfo updateInfo = new BAccidentInfo();
+     updateInfo.setId(info.getId());
+     updateInfo.setLiveImage(StringUtils.join(liveImage2));
+     /***********将reupload->reuploaded*********/
+     updateInfo.setImgreuploadedIndex(info.getImgreuploadIndex());
+     accidentDao.updateByPrimaryKeySelective(updateInfo);
+   }
+   return rtnObj;
+ }
+	
 	private void wxfileUpload(KckpUploadInfo accident){
 		//图片文件转换
 		if(accident.getLiveImage() != null && !"".equals(accident.getLiveImage().trim())){
@@ -120,6 +157,7 @@ public class BAccidentInfoServiceImpl extends BaseService<BAccidentInfo, BAccide
 			accident.setLiveVoice(StringUtils.join(newLiveVoices));
 		}
 	}
+	
 	/**
 	 * 说明：根据事故发生时间和微信号、号牌号码查询事故、驾驶员、微信信息
 	 */
@@ -192,4 +230,5 @@ public class BAccidentInfoServiceImpl extends BaseService<BAccidentInfo, BAccide
 		}
 		return list;
 	}
+
 }

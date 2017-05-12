@@ -8,6 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 <title>反馈意见查询</title>
 <link rel="stylesheet" href="${springPath}/static/css/common/easyui_v1.0.css" />
+<link rel="stylesheet" href="${springPath}/static/showLoading/showLoading.css"/>
 <link rel="stylesheet" href="${springPath}/static/css/common/fishBone.css" />
 <link rel="stylesheet" href="${springPath}/static/css/common/ued.css"/>
 <script type="text/javascript" src="${springPath}/static/plugins/jquery/dist/jquery.min.js"></script>
@@ -16,6 +17,7 @@
 <script type="text/javascript" src="${springPath}/static/plugins/jquery/dist/jquery.SuperSlide.2.1.1.js"></script>
 <script type="text/javascript" src="${springPath}/static/DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="${springPath}/static/js/common/common.js"></script>
+<script src="${springPath}/static/showLoading/jquery.showLoading.min.js"></script>
 <script type="text/javascript" src="${springPath}/static/js/lose/fishBone.js"></script>
 <script type="text/javascript" src="${springPath}/static/js/lose/fkyjcx.js"></script>
 </head>

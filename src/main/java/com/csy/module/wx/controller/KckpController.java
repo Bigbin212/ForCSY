@@ -191,6 +191,13 @@ public class KckpController {
 		}
 		response.getWriter().print(rst);
 	};
-	
-	
+
+  @RequestMapping("/updateKckpInfo")
+  public void updateKckpInfo(HttpServletRequest request, HttpServletResponse response, String id, String wxIds)
+      throws IOException{
+    JSONObject rtn = new JSONObject();
+    rtn = accidentService.updateAccident(id, wxIds.split(","));
+    response.getWriter().print(rtn);
+  }
+
 }

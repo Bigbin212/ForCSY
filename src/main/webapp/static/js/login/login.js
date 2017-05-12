@@ -217,7 +217,7 @@ function formValidate() {
 		dom.popover("show");
 		dom.nextAll(".popover").find(".popover-content").text(msg);
 	};
-	if(navigator.appName.indexOf("Microsoft Internet Explorer") != -1 && document.all){//ie8
+	if(navigator.appName == "Microsoft Internet Explorer" && navigator.appVersion.match(/8./i)=="8."){//ie8
 		$("#btnLogin").click(function(){
 			var usr = $("#account").val();
 			//将最后一个用户信息写入到Cookie 
@@ -257,108 +257,110 @@ function formValidate() {
 			return false;
 		});
 	}else{
- 		$('.loginForm').bootstrapValidator({
-			message : '验证未通过!',
-			feedbackIcons: { 
-				valid: 'glyphicon glyphicon-ok', 
-				invalid: 'glyphicon glyphicon-remove', 
-				validating: 'glyphicon glyphicon-refresh' 
-			},
-			fields : {
-				account:{
-					validators:{
-						callback:{
-							message:'<div></div>',
-							callback: function(value,validate,jQuerydom){
-								if(!value){
-									resetPopoverContext(jQuerydom,"帐号不可为空!");
-									return false;
-								}
-								return true;
-							}
-						}
-					}
+		jQuery.getScript(rootPath+"/static/plugins/bootstrapValidate/dist/js/bootstrapValidator.min.js", function(data, status, jqxhr) {
+			$('.loginForm').bootstrapValidator({
+				message : '验证未通过!',
+				feedbackIcons: { 
+					valid: 'glyphicon glyphicon-ok', 
+					invalid: 'glyphicon glyphicon-remove', 
+					validating: 'glyphicon glyphicon-refresh' 
 				},
-				password:{
-					validators:{
-						callback:{
-							message:'<div></div>',
-							callback: function(value,validate,jQuerydom){
-								if(!value){
-									resetPopoverContext(jQuerydom,"密码不可为空!");
-									return false;
-								}
-								return true;
-							}
-						}
-					}
-				},
-				securityCode:{
-					validators:{
-						callback:{
-							message:'<div></div>',
-							callback: function(value,validate,jQuerydom){
-								if($("#securityCodeDiv").hasClass("hidden")){
+				fields : {
+					account:{
+						validators:{
+							callback:{
+								message:'<div></div>',
+								callback: function(value,validate,jQuerydom){
+									if(!value){
+										resetPopoverContext(jQuerydom,"帐号不可为空!");
+										return false;
+									}
 									return true;
 								}
-								if(!value){
-									resetPopoverContext(jQuerydom,"输入验证码!");
-									return false;
+							}
+						}
+					},
+					password:{
+						validators:{
+							callback:{
+								message:'<div></div>',
+								callback: function(value,validate,jQuerydom){
+									if(!value){
+										resetPopoverContext(jQuerydom,"密码不可为空!");
+										return false;
+									}
+									return true;
 								}
-								return true;
+							}
+						}
+					},
+					securityCode:{
+						validators:{
+							callback:{
+								message:'<div></div>',
+								callback: function(value,validate,jQuerydom){
+									if($("#securityCodeDiv").hasClass("hidden")){
+										return true;
+									}
+									if(!value){
+										resetPopoverContext(jQuerydom,"输入验证码!");
+										return false;
+									}
+									return true;
+								}
 							}
 						}
 					}
 				}
-			}
-		}).on("success.form.bv",function(e){
-			if(!$("#securityCodeDiv").hasClass("hidden")){
-				var isTure = false;
+			}).on("success.form.bv",function(e){
+				if(!$("#securityCodeDiv").hasClass("hidden")){
+					var isTure = false;
+					$.ajax({
+						type: "post",
+						url: rootPath+"/login/securityCodeCheck",
+						data: {
+							securityCode: $("#securityCode").val()
+						},
+						async: false,
+						success: function(rst){
+							if(rst=="true"){
+								isTure = true;
+							}else{
+								resetPopoverContext($("#securityCode"),"验证码不正确!");
+								$("#securityCodeImg").parents("a").click();
+							}
+						}
+					});
+					//验证码不正确
+					if(!isTure)
+						return false;
+				}
+				
 				$.ajax({
 					type: "post",
-					url: rootPath+"/login/securityCodeCheck",
-					data: {
-						securityCode: $("#securityCode").val()
-					},
-					async: false,
-					success: function(rst){
-						if(rst=="true"){
-							isTure = true;
-						}else{
-							resetPopoverContext($("#securityCode"),"验证码不正确!");
-							$("#securityCodeImg").parents("a").click();
+					url: rootPath+"/login/accountLogin",
+					data: $(".loginForm").serializeArray(),
+					dataType: "json",
+					success: function(rst, textStatus){
+						if(!!rst.errorMsg){
+							resetPopoverContext($("#account"), rst.errorMsg);
+							if(rst.securityCode){
+								$("#securityCodeDiv").removeClass("hidden");
+								$("#securityCodeImg").parents("a").click();
+							}
+							return;
 						}
+//				window.open(rootPath+"/"+rst.account_id+"/cZone","_self");
+						window.open(rootPath+"/lose?param="+$("#account").val()+"","_self");
+					},
+					error:function(XMLHttpRequest, textStatus, errorThrown){
+						resetPopoverContext($("#account"), "登录异常!"+ XMLHttpRequest.status);
 					}
 				});
-				//验证码不正确
-				if(!isTure)
-					return false;
-			}
-			
-			$.ajax({
-				type: "post",
-				url: rootPath+"/login/accountLogin",
-				data: $(".loginForm").serializeArray(),
-				dataType: "json",
-				success: function(rst, textStatus){
-					if(!!rst.errorMsg){
-						resetPopoverContext($("#account"), rst.errorMsg);
-						if(rst.securityCode){
-							$("#securityCodeDiv").removeClass("hidden");
-							$("#securityCodeImg").parents("a").click();
-						}
-						return;
-					}
-//				window.open(rootPath+"/"+rst.account_id+"/cZone","_self");
-					window.open(rootPath+"/lose?param="+$("#account").val()+"","_self");
-				},
-				error:function(XMLHttpRequest, textStatus, errorThrown){
-					resetPopoverContext($("#account"), "登录异常!"+ XMLHttpRequest.status);
-				}
-			});
-			e.preventDefault();
-			return false;
-		});	
+				e.preventDefault();
+				return false;
+			});	
+		});
 	}
 }
 function SetLastUser(usr) { 

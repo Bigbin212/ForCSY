@@ -25,7 +25,9 @@ import com.csy.module.wx.entity.BWxFkyj;
 import com.csy.module.wx.service.service.BAccidentInfoService;
 import com.csy.module.wx.service.service.BWxFkyjService;
 import com.csy.util.JSONUtil;
+import com.csy.util.StringUtils;
 import com.csy.util.TimeFormatUtil;
+import com.csy.util.algorithm.RSAUtil;
 
 @Controller
 public class QuickLoseAction {
@@ -37,14 +39,17 @@ public class QuickLoseAction {
 	
 	@Resource
 	private BWxFkyjService bWxFkyjService;
+	
+	private static String Param = "";
 	/**
 	 * 说明:快处快赔查询页面
 	 * 创建时间：2017-02-20 09:00
 	 * @author wangyonghui
 	 * @return
+	 * @throws Exception 
 	 */
-	@RequestMapping("/lose")
-	public ModelAndView register(String param){
+	@RequestMapping("/lose.do")
+	public ModelAndView register(String param,HttpServletRequest req) throws Exception{
 		  Map<String, Object> paramsMap  = new HashMap<String, Object>();
 		  Calendar calendar = Calendar.getInstance();
 		  String formatTime = TimeFormatUtil.timeToStr(calendar, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
@@ -52,7 +57,14 @@ public class QuickLoseAction {
 		  String formatTime1 = TimeFormatUtil.timeToStr(calendar, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
 		  paramsMap.put("startTime", formatTime1);
 		  paramsMap.put("endTime", formatTime);
-		  paramsMap.put("param", param);
+		  if(!StringUtils.isNull(param)){
+			  Param = param;
+		  }
+		  RSAUtil.generateKeyPair();
+		  req.getSession(true).setAttribute("key", RSAUtil.PRIVATEKEY);
+		  paramsMap.put("publicKey", RSAUtil.PUBLICKEY.getModulus().toString(16));
+		  paramsMap.put("publicExponent", RSAUtil.PUBLICKEY.getPublicExponent().toString(16));
+		  paramsMap.put("param", Param);
 		  return new ModelAndView("lose/kckpcx",paramsMap);
 	}
 	/**
@@ -60,7 +72,7 @@ public class QuickLoseAction {
 	 * 创建时间：2017-02-21 15:00
 	 * @author wangyonghui
 	 */
-	@RequestMapping("/kckpcx")
+	@RequestMapping("/kckpcx.do")
 	public void findByParam(HttpServletRequest request, HttpServletResponse response,DriverAccident accident){
 		List<DriverAccident> list = new ArrayList<DriverAccident>();
 	    JSONObject jsonObject = new JSONObject();
@@ -81,7 +93,7 @@ public class QuickLoseAction {
 	 * @author wangyonghui
 	 * @return
 	 */
-	@RequestMapping("/fkyj")
+	@RequestMapping("/fkyj.do")
 	public ModelAndView queryFkyj(String param){
 		 Map<String, Object> paramsMap  = new HashMap<String, Object>();
 		  Calendar calendar = Calendar.getInstance();
@@ -100,7 +112,7 @@ public class QuickLoseAction {
 	 * @author wangyonghui
 	 * @since 2017-03-13 15:12
 	 */
-	@RequestMapping("/fkyjcx")
+	@RequestMapping("/fkyjcx.do")
 	public void fkyjcx(HttpServletRequest request, HttpServletResponse response,BWxFkyj bwfkyj){
 		List<BWxFkyj> list = new ArrayList<BWxFkyj>();
 	    JSONObject jsonObject = new JSONObject();
@@ -130,6 +142,25 @@ public class QuickLoseAction {
 	    }
 	    jsonObject.put("rows", list);
 	    jsonObject.put("total", total);
+	    JSONUtil.writeJSONObjectToResponse(response, jsonObject);
+	}
+	/**
+	 * 说明：标记有问题的图片
+	 * 创建时间：2017-05-05 13:31
+	 * @author wangyonghui
+	 */
+	@RequestMapping("/flagImage.do")
+	public void update(HttpServletRequest request, HttpServletResponse response,String id,String num){
+	    JSONObject jsonObject = new JSONObject();
+	    jsonObject.put("error", "");
+	    String imageString = "";
+	    try {
+	    	imageString = bAccidentInfoService.updateByPrimaryKeySelective(id, num);
+	    } catch (Exception e) {
+	      jsonObject.put("error", e);
+	      e.printStackTrace();
+	    }
+	    jsonObject.put("data", imageString);
 	    JSONUtil.writeJSONObjectToResponse(response, jsonObject);
 	}
 }

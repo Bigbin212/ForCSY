@@ -257,3 +257,4 @@ li {
     overflow: hidden;  
     white-space: nowrap; 
 }
+.label-span {display: inline-block;height:30px;line-height:30px;margin-right:10px;text-align: right;width:60px;}

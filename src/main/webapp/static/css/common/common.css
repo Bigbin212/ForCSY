@@ -9,6 +9,9 @@ body{
 .hidden{
 	display:none;
 }
+.show{
+	display:block;
+}
 
 .head_wrapper{
 	border-top: 2px solid #fa7d3c;

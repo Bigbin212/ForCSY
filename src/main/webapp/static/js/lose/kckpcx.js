@@ -87,7 +87,7 @@ function btnSearch(){
 	$('#mainDiv1').showLoading();
 	$.ajax({
 		type: "post",
-		url: rootPath + "/kckpcx",
+		url: rootPath + "/kckpcx.do",
 		data: {
 			kssj:$('#kssj').val(),
 			jssj:$('#jssj').val(),
@@ -237,7 +237,7 @@ function makeRightLane(data){
 		$("#accidenttr1").append("<td style='width:10%;font-size:17px' class='znjt-search-label znjt-color-background-5 znjt-text-align-center'><strong>事故时间</strong></td>");
 		$("#accidenttr1").append("<td style='width:25%;font-size:16px'>"+data.sgsj+"</td>");
 		$("#accidenttr1").append("<td style='width:10%;font-size:17px'class='znjt-search-label znjt-color-background-5 znjt-text-align-center'><strong>事故地点</strong></td>");
-		$("#accidenttr1").append("<td id='sgwzmc'style='width:55%;font-size:16px'>"+sgwzmc+"<span style='float:right;color:#41D4FF;cursor:pointer;'onclick='change("+JSON.stringify(data)+")'>位置切换</span></td>");
+		$("#accidenttr1").append("<td id='sgwzmc'style='width:55%;font-size:16px'>"+sgwzmc+"<span style='float:right;color:#41D4FF;cursor:pointer;'onclick='change("+JSON.stringify(data)+")'>切至地图</span></td>");
 		$("#accidenttr2").append("<td style='width:10%;font-size:17px'class='znjt-search-label znjt-color-background-5 znjt-text-align-center'><strong>事故责任</strong></td>");
 		$("#accidenttr2").append("<td style='width:25%;font-size:16px'>"+data.sgzr+"</td>");
 		$("#accidenttr2").append("<td style='width:10%;font-size:17px'class='znjt-search-label znjt-color-background-5 znjt-text-align-center'><strong>事故描述</strong></td>");
@@ -275,42 +275,49 @@ function makeRightLane(data){
 	if(data.liveImage != ""){
 		$("#mainDiv2").append("<div id='imageDiv' style='width:99.7%;border: 1px solid #d1d1d1;'></div>");
 		$("#imageDiv").height(($("#mainDiv2").height()/100)*45);
-		$("#imageDiv").append("<div id='imageFirst'style='width: 100%;'></div>");
-		$("#imageFirst").height(($("#imageDiv").height()/100)*10);
+		$("#imageDiv").append("<div id='imageFirst'style='width: 100%;height:20px'></div>");
 		$("#imageFirst").append("<div id='imageTwo'style='padding-left:20px;margin-top: 10px;'></div>");
 		$("#imageTwo").append("<img style='float: left;' src='"+rootPath+"/static/img/common/site.png'/>");
 		$("#imageTwo").append("<font color='#41D4FF' style='float: left;padding-left: 10px;font-size:18px;'>现场照片</font>");
 		$("#imageDiv").append("<div id='imageFirst1'style='width: 100%;'></div>");
-		$("#imageFirst1").height(($("#imageDiv").height()/100)*82);
-		$("#imageFirst1").append("<table id='imageTable' style='width:100%;height:100%;border: 1px solid #d1d1d1;'></table>");
+		$("#imageFirst1").height($("#imageDiv").height()-20);
+		$("#imageFirst1").append("<table id='imageTable' style='width:100%;height:98%;border: 1px solid #d1d1d1;'></table>");
+		$("#imageTable").height($("#imageFirst1").height()-20);
 		var str = data.liveImage.split(",");
+		//对无效的图片进行处理
+		var imageStr = "";
+		if(data.imageUploadIndex != null && data.imageUploadIndex != ""){
+			imageStr = data.imageUploadIndex.split(",");
+		}
+		var height = $("#imageFirst1").height();
 		if(str != null && str.length > 0){
-			if(str.length <= 5){
-				$("#imageTable").append("<tr id='imageTr1' style='border: 1px solid #d1d1d1;'></tr>");
-				for(var i = 0; i < str.length; i ++){
-					$("#imageTr1").append("<td style='width:20%;text-align:center;'><img style='width:140px;height:140px;cursor:pointer'onclick='onClickImage(this,"+JSON.stringify(imagePath+str[i])+")' src='"+(imagePath+str[i])+"'/></td>");
-				}
-			}else{
-				$("#imageDiv").height(($("#mainDiv2").height()/100)*85);
-				$("#imageFirst").height(($("#imageDiv").height()/100)*5);
-				$("#imageFirst1").height(($("#imageDiv").height()/100)*90);
-				var a = str.length/5;
-				if(str.length > a*5){
-					a = a+1;
-				}
-				for(var i = 0; i < a; i++){
-					$("#imageTable").append("<tr id='imageTr"+i+"' style='border: 1px solid #d1d1d1;'></tr>");
-					if((i+1)*5 > str.length){
-						for(var j = i*5; j < str.length; j ++){
-							$("#imageTr"+i).append("<td style='width:20%;text-align:center;'><img style='width:140px;height:140px;cursor:pointer'onclick='onClickImage(this,"+JSON.stringify(imagePath+str[j])+")' src='"+(imagePath+str[j])+"'/></td>");
-						}
-					}else{
-						for(var j = i*5; j < (i+1)*5; j ++){
-							$("#imageTr"+i).append("<td style='width:20%;text-align:center;'><img style='width:140px;height:140px;cursor:pointer'onclick='onClickImage(this,"+JSON.stringify(imagePath+str[j])+")' src='"+(imagePath+str[j])+"'/></td>");
+			var a = str.length/5;
+			if(a > 1){
+				$("#imageDiv").height(height*(Math.ceil(a))+20);
+				$("#imageFirst1").height(height*(Math.ceil(a)));
+				$("#imageTable").height($("#imageFirst1").height()-20);
+			}
+			for(var i = 0; i < a; i++){
+				$("#imageTable").append("<tr id='imageTr"+i+"' style='border: 1px solid #d1d1d1;'></tr>");
+				if((i+1)*5 > str.length){//小于5
+					for(var j = i*5; j < str.length; j ++){
+							if(data.imageUploadIndex.indexOf(str[j]) >= 0){
+								//则含有j+1
+								$("#imageTr"+i).append("<td style='width:20%;text-align:center;'><img class='imageClassFq' onclick='onClickImage(this,"+JSON.stringify(imagePath+str[j])+")' src='"+(imagePath+str[j])+"'/></td>");
+							}else{
+								$("#imageTr"+i).append("<td style='width:20%;text-align:center;'><img class='imageClass' onclick='onClickImage(this,"+JSON.stringify(imagePath+str[j])+")' src='"+(imagePath+str[j])+"'/><div class='detail' id='imageId"+j+"'onclick='processIamge("+JSON.stringify(str[j])+","+JSON.stringify(data.accdientId)+")'><font color='#41D4FF'style='font-size:18px'>废弃</font></div></td>");
+							}
+					}
+				}else{//大于5
+					for(var j = i*5; j < (i+1)*5; j ++){
+						if(data.imageUploadIndex.indexOf(str[j]) >= 0){
+							//则含有j+1
+							$("#imageTr"+i).append("<td style='width:20%;text-align:center;'><img class='imageClassFq' onclick='onClickImage(this,"+JSON.stringify(imagePath+str[j])+")' src='"+(imagePath+str[j])+"'/></td>");
+						}else{
+							$("#imageTr"+i).append("<td style='width:20%;text-align:center;'><img class='imageClass' onclick='onClickImage(this,"+JSON.stringify(imagePath+str[j])+")' src='"+(imagePath+str[j])+"'/><div class='detail' id='imageId"+j+"'onclick='processIamge("+JSON.stringify(str[j])+","+JSON.stringify(data.accdientId)+")'><font color='#41D4FF'style='font-size:18px'>废弃</font></div></td>");
 						}
 					}
 				}
-
 			}
 		}
 	}
@@ -360,16 +367,25 @@ function openNewWindow(){
 	  tmp.moveTo(0,0);
 	  tmp.resizeTo(screen.width+20,screen.height);
 	  tmp.focus();
-	  tmp.location=rootPath+"/fkyj";
+	  tmp.location=rootPath+"/fkyj.do";
 }
+//切换到腾讯地图
 function change(data){
-	$("#sgwzmc").html("纬度："+data.sgwd+"；经度："+data.sgjd+"<span style='float:right;color:#41D4FF;cursor:pointer;'onclick='changeEx("+JSON.stringify(data)+")'>位置切换</span>");
+	var url = "http://apis.map.qq.com/uri/v1/geocoder?coord="+data.sgwd+","+data.sgjd+"&referer=myapp";
+	var tmp=window.open("about:blank","","");
+	tmp.moveTo(0,0);
+	tmp.resizeTo(screen.width+20,screen.height);
+	tmp.focus();
+	tmp.location=url;
+	//$("#sgwzmc").html("纬度："+data.sgwd+"；经度："+data.sgjd+"<span style='float:right;color:#41D4FF;cursor:pointer;'onclick='changeEx("+JSON.stringify(data)+")'>位置切换</span>");
 }
 function changeEx(data){
-	$("#sgwzmc").html(sgwzmc+"<span style='float:right;color:#41D4FF;cursor:pointer;'onclick='change("+JSON.stringify(data)+")'>位置切换</span>");
+	//$("#sgwzmc").html(sgwzmc+"<span style='float:right;color:#41D4FF;cursor:pointer;'onclick='change("+JSON.stringify(data)+")'>位置切换</span>");
 }
 //根据经纬度调用腾讯地图获取具体位置信息
+var rightData = "";
 function getgisInfo(info){
+	 rightData = info;
 	 var data={location:info.sgwd+"," +info.sgjd,key:"5RTBZ-NPL3I-LK4GF-5FXGZ-EW2SH-VDFU2",get_poi:0};
      var url="http://apis.map.qq.com/ws/geocoder/v1/?";
      data.output="jsonp";  
@@ -381,12 +397,103 @@ function getgisInfo(info){
         jsonpCallback:"QQmap",
         url:url,
         success:function(json){
-	     sgwzmc = json.result.address_component.province + json.result.address_component.city + json.result.formatted_addresses.recommend;
-	     makeRightLane(info);
-		 $("#mainDiv2").hideLoading(); 	 
+        	sgwzmc = json.result.address_component.province + json.result.address_component.city + json.result.formatted_addresses.recommend;
+        	makeRightLane(info);
+        	$("#mainDiv2").hideLoading(); 	 
         },
         error : function(err){
-       	 	alert("服务端错误，请刷新浏览器后重试");
+       	    $("#mainDiv2").hideLoading(); 	 
         }
 	});
+}
+/**
+ * 对有问题的图片进行处理，让用户再次上传
+ * @param event
+ * @param j
+ * @param accidentId
+ */
+function processIamge(imageName,accidentId){
+	  var statu = confirm("确定此图标识为无效图吗?");
+	  if(!statu){
+		  return false;
+	  }
+	  $.ajax({
+			type: "post",
+			url: rootPath + "/flagImage.do",
+			data: {
+				id:accidentId,
+				num:imageName
+			},
+			dataType: "json",
+			success: function(data){
+				if(data.error != ""){
+					alert("标识为无效图失败："+data.error);
+					return ;
+				}else{
+					alert("标识为无效图成功");
+					rightData.imageUploadIndex = data.data;
+					$("#mainDiv2").showLoading();
+					makeRightLane(rightData);
+					$("#mainDiv2").hideLoading();
+				}
+			}
+		});
+}
+/**
+ * 密码修改
+ */
+function modifyPassword(){
+	$("#password").css('display','block'); 
+	$("#password").dialog({
+		closed : true,
+		modal : true,
+		resizable : false,
+		width :360,
+		height:200,
+	});
+	 $("#password").dialog('open');
+}
+/**
+ * 修改密码
+ */
+function btnModifyOk(){
+	var regex = new RegExp('(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{8,16}');
+	if(!regex.test($("#txtNewPwd").val())){
+		alert("8～16个字符,包含数字、字母、特殊字符");
+		return ;
+	}
+	if($("#txtNewPwd").val() != $("#txtNewPwd2").val()){
+		alert("新密码两次输入不一致");
+		return ;
+	}
+	setMaxDigits(130);  
+	var key = new RSAKeyPair($("#publicExponent").val(),"",$("#publicKey").val());  
+    var txtNewPwd = encryptedString(key, $("#txtNewPwd").val());
+	$.ajax({
+		type: "post",
+		url:rootPath + "/login/modifyPassword.do",
+		data:{
+			oldPwd : md5(md5($("#txtOldPwd").val())),
+			newPwd : txtNewPwd
+		},
+		dataType: "json",
+		success: function(data){
+			if(data.error != ""){
+				alert(data.error);
+				return ;
+			}else{
+				alert("修改密码成功");
+				$("#password").dialog('close');
+				window.open(rootPath+"/login.do","_self");
+			}
+		}
+	});
+}
+/**
+ * 密码重置
+ */
+function btnModifyReset(){
+	$("#txtOldPwd").val("");
+	$("#txtNewPwd").val("");
+	$("#txtNewPwd2").val("");
 }

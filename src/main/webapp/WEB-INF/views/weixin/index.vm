@@ -21,7 +21,7 @@
                 <p class="weui-footer__links">
                     <a href="${springPath}/wx/fkyj/index" class="weui-footer__link">意见反馈</a>
                 </p>
-                <p class="weui-footer__text">Copyright @ 2017-2020 pikaka.iego.cn</p>
+                <p class="weui-footer__text">Copyright @ 2017-2020 ytgsjj.gov.cn</p>
             </div>
 		</div>
 		<script src="${springPath}/static/js/weixin/zepto.min.js"></script>

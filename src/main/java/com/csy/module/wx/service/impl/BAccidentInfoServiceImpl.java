@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import net.sf.json.JSONObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -193,7 +195,7 @@ public class BAccidentInfoServiceImpl extends BaseService<BAccidentInfo, BAccide
 						accident.setWxzh(user.getNickname());
 						if(user.getHeadimgurl() != null && user.getHeadimgurl() != ""){
 							if(user.getHeadimgurl().substring(user.getHeadimgurl().lastIndexOf("/")+1).equals("0")){
-								accident.setWxtx(user.getHeadimgurl().substring(0, user.getHeadimgurl().lastIndexOf("/")+1)+46);
+								accident.setWxtx(user.getHeadimgurl().substring(0, user.getHeadimgurl().lastIndexOf("/")+1)+64);
 							}
 						}
 					}
@@ -209,6 +211,10 @@ public class BAccidentInfoServiceImpl extends BaseService<BAccidentInfo, BAccide
 				accident.setLiveImage(info.getLiveImage());
 				accident.setLiveVoice(info.getLiveVoice());
 				accident.setWxid(info.getFkWxOpenid());
+				accident.setAccdientId(info.getId());
+				if(null != info.getImgreuploadIndex() && !"".equals(info.getImgreuploadIndex())){
+					accident.setImageUploadIndex(info.getImgreuploadIndex());
+				}
 				//驾驶员
 				if(info.getId() != null && info.getId() != ""){
 					List<BAccidentDriver> accidentDrivers =  accidentDriverDao.selectAll(info.getId());
@@ -231,4 +237,16 @@ public class BAccidentInfoServiceImpl extends BaseService<BAccidentInfo, BAccide
 		return list;
 	}
 
+	@Override
+	public String updateByPrimaryKeySelective(String id,String num) {
+		BAccidentInfo accidentInfo = accidentDao.selectByPrimaryKey(id);
+		if(null != accidentInfo.getImgreuploadIndex() && !"".equals(accidentInfo.getImgreuploadIndex())){
+			String imageIndex = accidentInfo.getImgreuploadIndex();
+			accidentInfo.setImgreuploadIndex(num+","+imageIndex);
+		}else{
+			accidentInfo.setImgreuploadIndex(num);
+		}
+		accidentDao.updateByPrimaryKeySelective(accidentInfo);
+		return accidentInfo.getImgreuploadIndex();
+	}
 }

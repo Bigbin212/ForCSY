@@ -234,12 +234,34 @@ function formValidate() {
 				//如果没有选中记住密码,则立即过期 
 				ResetCookie(); 
 			} 
+			if(!$("#securityCodeDiv").hasClass("hidden")){
+				var isTure = false;
+				$.ajax({
+					type: "post",
+					url: rootPath+"/login/securityCodeCheck",
+					data: {
+						securityCode: $("#securityCode").val()
+					},
+					async: false,
+					success: function(rst){
+						if(rst=="true"){
+							isTure = true;
+						}else{
+							resetPopoverContext($("#securityCode"),"验证码不正确!");
+							$("#securityCodeImg").parents("a").click();
+						}
+					}
+				});
+				//验证码不正确
+				if(!isTure)
+					return false;
+			}
 			$.ajax({
 				type: "post",
 				url: rootPath+"/login/accountLogin",
 				data: {
 					account:$("#account").val(),
-					password:$("#password").val()
+					password:md5(md5(md5($("#password").val()))+$("#securityCode").val())
 				},
 				dataType: "json",
 				success: function(rst, textStatus){
@@ -247,7 +269,7 @@ function formValidate() {
 						alert(rst.errorMsg);
 						return ;
 					}else{
-						window.open(rootPath+"/lose?param="+$("#account").val()+"","_self");
+						windowOpen();
 					}
 				},
 				error:function(XMLHttpRequest, textStatus, errorThrown){
@@ -339,7 +361,10 @@ function formValidate() {
 				$.ajax({
 					type: "post",
 					url: rootPath+"/login/accountLogin",
-					data: $(".loginForm").serializeArray(),
+					data: {
+						account:$("#account").val(),
+						password:md5(md5(md5($("#password").val()))+$("#securityCode").val())
+					},
 					dataType: "json",
 					success: function(rst, textStatus){
 						if(!!rst.errorMsg){
@@ -350,8 +375,7 @@ function formValidate() {
 							}
 							return;
 						}
-//				window.open(rootPath+"/"+rst.account_id+"/cZone","_self");
-						window.open(rootPath+"/lose?param="+$("#account").val()+"","_self");
+						windowOpen();
 					},
 					error:function(XMLHttpRequest, textStatus, errorThrown){
 						resetPopoverContext($("#account"), "登录异常!"+ XMLHttpRequest.status);
@@ -386,3 +410,10 @@ function ResetCookie() {
 	var expdate = new Date(); 
 	SetCookie(usr, null, expdate); 
 } 
+function windowOpen(){
+	$.post(rootPath+"/lose.do", {param:$('#account').val()}, function(response) {
+		window.open(rootPath+"/lose.do","_self");
+    });
+}
+
+

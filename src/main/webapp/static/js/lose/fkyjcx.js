@@ -73,7 +73,7 @@ function init(){
 function makeFishBone(param){
 	$.ajax({
 		type: "post",
-		url: rootPath + "/fkyjcx",
+		url: rootPath + "/fkyjcx.do",
 		data: param,
 		dataType: "json",
 		success: function(data){
@@ -98,7 +98,7 @@ function makeFishBone(param){
 function makeDataGrid(){
 	var param = getParam(true);
 	$('#divTable').datagrid({
-		url : rootPath + "/fkyjcx",
+		url : rootPath + "/fkyjcx.do",
 		queryParams :param,
 		rownumbers: true,
 		striped:true,

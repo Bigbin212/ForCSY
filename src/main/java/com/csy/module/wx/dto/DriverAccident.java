@@ -29,11 +29,26 @@ public class DriverAccident {
 	private String liveImage;//现场关于事故的一些图片
 	private String liveVoice;//现场事故的一些录音
 	private String imagePath;
-	
+	private String accdientId;
+	private String imageUploadIndex;
 	private List<BDriverInfo> bDriverInfos = new ArrayList<BDriverInfo>();
-	
+	public String getImageUploadIndex() {
+		return imageUploadIndex;
+	}
+
+	public void setImageUploadIndex(String imageUploadIndex) {
+		this.imageUploadIndex = imageUploadIndex;
+	}
+
 	private String hphm;//号牌号码
-	
+	public String getAccdientId() {
+		return accdientId;
+	}
+
+	public void setAccdientId(String accdientId) {
+		this.accdientId = accdientId;
+	}
+
 	public String getImagePath() {
 		return imagePath;
 	}

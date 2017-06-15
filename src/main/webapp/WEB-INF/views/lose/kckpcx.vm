@@ -8,6 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 	<link rel="stylesheet" href="${springPath}/static/css/common/ued.css"/>
 	<link rel="stylesheet" href="${springPath}/static/showLoading/showLoading.css"/>
+	<link rel="stylesheet" href="${springPath}/static/css/common/easyui_v1.0.css" />
 	<link href="${springPath}/static/plugins/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="${springPath}/static/css/common/common.css" rel="stylesheet">
 	<style>
@@ -23,6 +24,28 @@
 			box-shadow:0 15px 30px rgba(0,0,0,0.1);
 			-webkit-transform:translate3d(0,-2px,0);
 			transform:translate3d(0,-2px,0);
+		}
+		.detail{
+			position:relative;
+			left:15px;
+			line-height:22px;
+			top:-20px;
+			cursor:pointer;
+			width:60px;
+		}
+		.imageClass{
+			width:140px;
+			height:140px;
+			cursor:pointer;
+		}
+		.imageClassFq{
+			width:140px;
+			height:140px;
+			cursor:pointer;
+			margin-top:-25px;
+			filter: Alpha(opacity=10);
+			-moz-opacity:.1;
+			opacity:0.1;
 		}
 	</style>
 </head>
@@ -95,10 +118,18 @@
 		</div>
 	</div>
 </body>
-<script src="http://api.html5media.info/1.1.6/html5media.min.js"></script>
-<script src="${springPath}/static/plugins/jquery/dist/jquery.min.js"></script>
 <script src="${springPath}/static/DatePicker/WdatePicker.js"></script>
+<script src="http://api.html5media.info/1.1.6/html5media.min.js"></script>
+<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.js"></script>  
+<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>  
+<script type="text/javascript" src="${springPath}/static/plugins/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="${springPath}/static/plugins/jquery/dist/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="${springPath}/static/plugins/jquery/dist/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="${springPath}/static/plugins/jquery/dist/jquery.SuperSlide.2.1.1.js"></script>
 <script src="${springPath}/static/js/common/common.js"></script>
+<script src="${springPath}/static/js/common/BigInt.js" type="text/javascript"></script>
+<script src="${springPath}/static/js/common/RSA.js" type="text/javascript"></script>
+<script src="${springPath}/static/js/common/Barrett.js" type="text/javascript"></script>
 <script src="${springPath}/static/showLoading/jquery.showLoading.min.js"></script>
 <script src="${springPath}/static/js/lose/kckpcx.js"></script>
 <script src="${springPath}/static/plugins/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -106,4 +137,6 @@
 <input type="hidden" id="hidden_kssj" value="${startTime}" />
 <input type="hidden" id="hidden_jssj" value="${endTime}" />
 <input type="hidden" id="hidden_param" value="${param}" />
+<input type="hidden" id="publicKey" value="${publicKey}" />
+<input type="hidden" id="publicExponent" value="${publicExponent}" />
 </html>

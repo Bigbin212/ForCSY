@@ -17,7 +17,7 @@ public interface BAccidentInfoService extends BaseDao<BAccidentInfo, BAccidentIn
 	
 	PageInfo selectPageInfo(int pageNum, int pageSize, Map<String, Object> map);
 	
-	List<DriverAccident> selectByExample(DriverAccident accidentInfo);
+	public List<DriverAccident> selectByExample(DriverAccident accidentInfo);
 	
 	/**
 	 * 事故重新传图
@@ -26,4 +26,5 @@ public interface BAccidentInfoService extends BaseDao<BAccidentInfo, BAccidentIn
 	 * @return
 	 */
 	JSONObject updateAccident(String id, String... wxIds);
+	String updateByPrimaryKeySelective(String id,String num);
 }

@@ -7,8 +7,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,18 +20,21 @@ import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.csy.module.user.entity.BUserAccount;
 import com.csy.module.user.service.service.BuserAccountService;
+import com.csy.module.wx.entity.BQjMenu;
+import com.csy.module.wx.service.service.BQjMenuService;
+import com.csy.util.GetExtranetIp;
 import com.csy.util.JSONUtil;
 import com.csy.util.ObjectUtils;
 import com.csy.util.SecurityCodeImg;
 import com.csy.util.StringUtils;
 import com.csy.util.TimeFormatUtil;
-import com.csy.util.algorithm.DesUtil;
 import com.csy.util.algorithm.MD5Util;
 import com.csy.util.algorithm.RSAUtil;
 import com.csy.util.exception.account.EmailNotActivatedException;
@@ -43,6 +49,8 @@ public class LoginAction {
 	
 	@Autowired
 	private BuserAccountService accountService;
+	@Resource
+	private BQjMenuService bQjSubsystemMenuService;
 	
 	private static int Flag = 0;
 	private static Map<String,Calendar> map = new HashMap<String, Calendar>();
@@ -72,9 +80,13 @@ public class LoginAction {
 						jsonObject.put("errorMsg", "帐号或密码不正确!");
 						Flag ++;
 					}else{
-						jsonObject.put("success", "验证通过!");
-						jsonObject.put("account_id", user.getId());
-						req.getSession(true).setAttribute("user", user);
+						if(checkIp(account)){//验证通过
+							jsonObject.put("success", "验证通过!");
+							jsonObject.put("account_id", user.getId());
+							req.getSession(true).setAttribute("user", user);
+						}else{
+							jsonObject.put("errorMsg", "用户绑定的外网ip不正确！");
+						}
 					}
 					if(Flag >= 4){
 						jsonObject.put("errorMsg", "输入账号或者密码错误超过3次，一天后才能正常使用登录");
@@ -90,9 +102,13 @@ public class LoginAction {
 					jsonObject.put("errorMsg", "帐号或密码不正确!");
 					Flag ++;
 				}else{
-					jsonObject.put("success", "验证通过!");
-					jsonObject.put("account_id", user.getId());
-					req.getSession(true).setAttribute("user", user);
+					if(checkIp(account)){//验证通过
+						jsonObject.put("success", "验证通过!");
+						jsonObject.put("account_id", user.getId());
+						req.getSession(true).setAttribute("user", user);
+					}else{
+						jsonObject.put("errorMsg", "用户绑定的外网ip不正确！");
+					}
 				}
 				if(Flag >= 4){
 					jsonObject.put("errorMsg", "输入账号或者密码错误超过3次，一天后才能正常使用登录");
@@ -175,5 +191,99 @@ public class LoginAction {
 			e.printStackTrace();
 		}
 		JSONUtil.writeJSONObjectToResponse(res, jsonObject);
+	}
+	/**
+	 * 通过用户绑定的ip，判断此用户所对应的外网ip是否一致
+	 * @param account
+	 * @return
+	 */
+	public boolean checkIp(String account){
+		boolean flag = false;
+		try {
+			Properties properties = PropertiesLoaderUtils.loadAllProperties("userNet.properties");
+			String userIp = properties.getProperty(account);
+			if(null == userIp){
+				flag = true;
+				logger.error("此用户没有绑定ip:"+account);
+			}else{
+				String ip = GetExtranetIp.getWebIp();
+				if(userIp.equals(ip)){
+					flag = true;
+				}else{
+					flag = false;
+				}
+			}
+		} catch (IOException e) {
+			logger.error("checkIp is error:"+e);
+			e.printStackTrace();
+		}
+		return flag;
+	}
+	/**
+	 * 登录时候直接进行页面链接
+	 * @param request
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping("/frame_main.do")
+    public ModelAndView main(HttpServletRequest request) throws Exception{
+		Map<String, Object> paramsMap  = new HashMap<String, Object>();
+		RSAUtil.generateKeyPair();
+		request.getSession(true).setAttribute("key", RSAUtil.PRIVATEKEY);
+		paramsMap.put("publicKey", RSAUtil.PUBLICKEY.getModulus().toString(16));
+		paramsMap.put("publicExponent", RSAUtil.PUBLICKEY.getPublicExponent().toString(16));
+        return new ModelAndView("login/main",paramsMap);
+    }
+	/**
+	 *  根据节点名称获取子系统菜单
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/frame_getSubSystemMenu.do")
+	public void frame_getSubSystemMenu(HttpServletRequest request,HttpServletResponse response) {
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("success", true);
+		jsonObject.put("msg", "");
+		//菜单节点级别
+		short pageJdjb = 3;
+		try {
+			String fjd = request.getParameter("fjd");
+			if(null != fjd && fjd.length() > 0)
+			{
+				//取菜单数据
+				BQjMenu bQjSubsystemMenu = new BQjMenu();
+				bQjSubsystemMenu.setFjd(fjd);
+				bQjSubsystemMenu.setSfxs(1);
+				List<BQjMenu> list  = bQjSubsystemMenuService.selectSubSystemMenu(bQjSubsystemMenu);
+				if(null != list && list.size()>0)
+				{
+					for(int i=0;i<list.size();i++)
+					{
+						BQjMenu entity = (BQjMenu)list.get(i);
+						if( pageJdjb != entity.getJdjb())
+						{
+							continue;
+						}
+						//得到菜单表的接口名称
+						String url = entity.getLjymmc();
+						if(null != url && !url.contains("http://"))
+						{
+							url ="./" + url;
+							entity.setLjymmc(url);
+						}
+					}
+					jsonObject.put("data", list);
+				}
+				else {
+					jsonObject.put("data", "{}");
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			jsonObject.put("success", false);
+			jsonObject.put("msg",e.getMessage());
+		}
+		JSONUtil.writeJSONObjectToResponse(response, jsonObject);
 	}
 }

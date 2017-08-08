@@ -9,20 +9,21 @@ $(function() {
 	loadLxk();
 	restParam();
 	$('#user-name').val($('#hidden_param').val());
+	btnSearch();
 });
 function initResize(){
 	var  winWidth = $(window).width();//窗口宽度
 	var  winHeight = $(window).height();//窗口高度
 	$(".whole-div").width(winWidth); //整体的宽度
-	$(".whole-div").height(winHeight - 45);//整体的高度
+	$(".whole-div").height(winHeight - 30);//整体的高度
 	$(".main-top").height(winHeight/6);//整体的高度
 	$('#dataGrid').height($('.main-top').height() - $('.titleDiv').height());
-	$('.main-top1').height($('.whole-div').height() - $('.main-top').height()-35);
+	$('.main-top1').height($('.whole-div').height() - $('.main-top').height()-20);
 	$('.main-top1').width($('.main-top').width());
 	$('#mainDiv1').height($('.main-top1').height() - $('.titleDiv').height()-4);
-	$('#mainDiv1').width(($('.main-top1').width()/100)*28);
+	$('#mainDiv1').width(($('.main-top1').width()/100)*33);
 	$('#mainDiv2').height($('.main-top1').height() - $('.titleDiv').height()-4);
-	$('#mainDiv2').width(($('.main-top1').width()/100)*71);
+	$('#mainDiv2').width(($('.main-top1').width()/100)*66);
 }
 //加载省份简称
 var values = "";
@@ -36,7 +37,7 @@ function loadLxk(){
 		async: false,
 		success: function(rst){
 			if(rst.error != ""){
-				alert(rst.error);
+				jAlert(rst.error);
 				return ;
 			}else{
 				if(null != rst.data && rst.data.length > 0){
@@ -60,6 +61,13 @@ function initComponent(){
 	$("#vehicleSearchResetBtn").click(function(){
 		restParam();
 	});
+	/**
+	 * 导出
+	 */
+	$("#exporttBtn").click(function(){
+		window.location = rootPath + "/queryDataExport.do" + "?hphm="
+		+ hphm  + "&wxzh=" +$('#wxh').val() + "&jssj=" + $('#jssj').val()+"&kssj="+$('#kssj').val()+"&r=" + new Date();
+	});
 }
 //把条件参数重置成空
 function restParam(){
@@ -74,8 +82,8 @@ function Switch() {
     $("#list").val(values.cysf.description);
 }
 //查询方法
+var hphm = "";
 function btnSearch(){
-	var hphm = "";
 	for(var i = 0; i < values.data.length; i ++){
 		if($("#list").val() == values.data[i].id){
 			hphm = values.data[i].dmxywm;
@@ -97,14 +105,14 @@ function btnSearch(){
 		dataType: "json",
 		success: function(data){
 			if(data.error != ""){
-				alert(data.error);
+				jAlert(data.error);
 				return ;
 			}else{
 				$('#mainDiv1').hideLoading();
 				$("#mainDiv1").empty(); 
 				$("#mainDiv2").empty();
 				if(data.data.length == 0){
-					alert("没有查询到数据");
+					jAlert("没有查询到数据");
 					return ;
 				}
 				makeLeftTable(data);
@@ -120,10 +128,10 @@ function makeLeftTable(data){
 		$.each(data.data, function (i, item) {
 			var j = i + 1;
 			$("#mainDiv1").append("<div id='main"+i+"' class='item_over' onmouseover='sizeOver("+i+")' onmouseout='sizeOut("+i+")' style='width: 100%;height:100px;border: 1px solid #d1d1d1;cursor:pointer' onclick='onClick(this,"+JSON.stringify(item)+","+i+")'></div>");
-			$("#main"+i).append("<div id='divDiv"+i+"' style='width:25%;float: left;margin-top: 15px;text-align: center;position: relative'></div>");
+			$("#main"+i).append("<div id='divDiv"+i+"' style='width:20%;float: left;margin-top: 15px;position: relative'></div>");
 			$("#divDiv"+i).append("<div id='text' style='position: absolute; top: 25px; left: 45%;'><p>"+j+"</p></div>");
 			$("#divDiv"+i).append("<img  id='images' src='"+rootPath+"/static/img/common/background.png' />");
-			$("#main"+i).append("<div id='divTable"+i+"' style='width:75%;float: right;margin-top: 5px;'></div>");
+			$("#main"+i).append("<div id='divTable"+i+"' style='width:80%;float: right;margin-top: 5px;'></div>");
 			$("#divTable"+i).append("<table id='table"+i+"'></table>");
 			$("#table"+i).append("<tr id='tr1"+i+"'></tr>");
 			$("#tr1"+i).append("<td style='height:30px;'><strong>号牌号码:</strong></td>");
@@ -185,7 +193,7 @@ function codeLatLng(data){
 //     });
 //	//若服务请求失败，则运行以下函数
 //    geocoder.setError(function() {
-//       alert("出错了，请输入正确的经纬度！！！");
+//       jAlert("出错了，请输入正确的经纬度！！！");
 //    });
     getgisInfo(data);
 }
@@ -202,16 +210,15 @@ function makeRightLane(data){
 	$("#mainDiv2").empty();
 	//微信
 	$("#mainDiv2").append("<div id='right1' style='width: 99.7%;border: 1px solid #d1d1d1;'></div>");
-	$("#right1").height(($("#mainDiv2").height()/100)*15);
+	$("#right1").height(($("#mainDiv2").height()/100)*16);
 	$("#right1").append("<table id='rightTable' style='width:100%;height:100%;'></table>");
 	$("#rightTable").append("<tr id='rightTr'></tr>");
-	$("#rightTr").append("<td></td>");
-	$("#rightTr").append("<td style='text-align: center;width: 10%;'><img src='"+data.wxtx+"'></td>");
-	$("#rightTr").append("<td style='text-align: left;width: 30%;font-size:18px'><font color='#41D4FF'>"+data.wxzh+"</font></td>");
-	$("#rightTr").append("<td></td>");
+	$("#rightTr").append("<td width='30%;'></td>");
+	$("#rightTr").append("<td style='text-align: center;width: 10%;'><img src='"+data.wxtx+"' style='width:70px;height:70px;'></td>");
+	$("#rightTr").append("<td style='text-align: left;width: 60%;font-size:18px'><font color='#41D4FF'>"+data.wxzh+"</font></td>");
 	//事故信息
 	$("#mainDiv2").append("<div id='right2'style='width:99.7%;border: 1px solid #d1d1d1;'></div>");
-	$("#right2").height(($("#mainDiv2").height()/100)*30);
+	$("#right2").height(($("#mainDiv2").height()/100)*35);
 	$("#right2").append("<div id='accident'style='width: 100%;'></div>");
 	$("#accident").height(($("#right2").height()/100)*20);
 	$("#accident").append("<div id='accidentdiv'style='padding-left:20px;margin-top: 10px;'></div>");
@@ -223,7 +230,7 @@ function makeRightLane(data){
 	$("#accidenttable").append("<tr id='accidenttr1' style='border: 1px solid #d1d1d1;'></tr>");
 	$("#accidenttable").append("<tr id='accidenttr2' style='border: 1px solid #d1d1d1;'></tr>");
 	if(data.sgms.length > 60){
-		$("#right2").height(($("#mainDiv2").height()/100)*45);
+		$("#right2").height(($("#mainDiv2").height()/100)*57);
 		$("#accidentTable").height(($("#right2").height()/100)*79);
 		$("#accidenttr1").append("<td style='width:10%;font-size:17px' class='znjt-search-label znjt-color-background-5 znjt-text-align-center'><strong>事故时间</strong></td>");
 		$("#accidenttr1").append("<td style='width:17%;font-size:16px'>"+data.sgsj+"</td>");
@@ -247,7 +254,7 @@ function makeRightLane(data){
 	if(data.bDriverInfos != null && data.bDriverInfos.length > 0){
 		$.each(data.bDriverInfos, function (i, items) {
 			$("#mainDiv2").append("<div id='driverDiv"+i+"' style='width:99.7%;border: 1px solid #d1d1d1;'></div>");
-			$("#driverDiv"+i).height(($("#mainDiv2").height()/100)*20);
+			$("#driverDiv"+i).height(($("#mainDiv2").height()/100)*24);
 			$("#driverDiv"+i).append("<div id='driverdiv"+i+"' style='width: 100%;'></div>");
 			$("#driverdiv"+i).height(($("#driverDiv"+i).height()/100)*30);
 			$("#driverdiv"+i).append("<div id='driverdiv1"+i+"' style='padding-left:20px;margin-top: 10px;'></div>");
@@ -361,14 +368,6 @@ function makeRightLane(data){
 	}
 	
 }
-//反馈意见页面弹出
-function openNewWindow(){
-	  var tmp=window.open("about:blank","","");
-	  tmp.moveTo(0,0);
-	  tmp.resizeTo(screen.width+20,screen.height);
-	  tmp.focus();
-	  tmp.location=rootPath+"/fkyj.do";
-}
 //切换到腾讯地图
 function change(data){
 	var url = "http://apis.map.qq.com/uri/v1/geocoder?coord="+data.sgwd+","+data.sgjd+"&referer=myapp";
@@ -395,11 +394,15 @@ function getgisInfo(info){
         data:data,
         jsonp:"callback",
         jsonpCallback:"QQmap",
+        timeout:3000,
         url:url,
         success:function(json){
-        	sgwzmc = json.result.address_component.province + json.result.address_component.city + json.result.formatted_addresses.recommend;
-        	makeRightLane(info);
         	$("#mainDiv2").hideLoading(); 	 
+        	console.info(json.result);
+        	if(json.result !== undefined){
+        		sgwzmc = json.result.address + json.result.formatted_addresses.recommend;
+        	}
+        	makeRightLane(info);
         },
         error : function(err){
        	    $("#mainDiv2").hideLoading(); 	 
@@ -427,10 +430,10 @@ function processIamge(imageName,accidentId){
 			dataType: "json",
 			success: function(data){
 				if(data.error != ""){
-					alert("标识为无效图失败："+data.error);
+					jAlert("标识为无效图失败："+data.error);
 					return ;
 				}else{
-					alert("标识为无效图成功");
+					jAlert("标识为无效图成功");
 					rightData.imageUploadIndex = data.data;
 					$("#mainDiv2").showLoading();
 					makeRightLane(rightData);
@@ -438,62 +441,4 @@ function processIamge(imageName,accidentId){
 				}
 			}
 		});
-}
-/**
- * 密码修改
- */
-function modifyPassword(){
-	$("#password").css('display','block'); 
-	$("#password").dialog({
-		closed : true,
-		modal : true,
-		resizable : false,
-		width :360,
-		height:200,
-	});
-	 $("#password").dialog('open');
-}
-/**
- * 修改密码
- */
-function btnModifyOk(){
-	var regex = new RegExp('(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{8,16}');
-	if(!regex.test($("#txtNewPwd").val())){
-		alert("8～16个字符,包含数字、字母、特殊字符");
-		return ;
-	}
-	if($("#txtNewPwd").val() != $("#txtNewPwd2").val()){
-		alert("新密码两次输入不一致");
-		return ;
-	}
-	setMaxDigits(130);  
-	var key = new RSAKeyPair($("#publicExponent").val(),"",$("#publicKey").val());  
-    var txtNewPwd = encryptedString(key, $("#txtNewPwd").val());
-	$.ajax({
-		type: "post",
-		url:rootPath + "/login/modifyPassword.do",
-		data:{
-			oldPwd : md5(md5($("#txtOldPwd").val())),
-			newPwd : txtNewPwd
-		},
-		dataType: "json",
-		success: function(data){
-			if(data.error != ""){
-				alert(data.error);
-				return ;
-			}else{
-				alert("修改密码成功");
-				$("#password").dialog('close');
-				window.open(rootPath+"/login.do","_self");
-			}
-		}
-	});
-}
-/**
- * 密码重置
- */
-function btnModifyReset(){
-	$("#txtOldPwd").val("");
-	$("#txtNewPwd").val("");
-	$("#txtNewPwd2").val("");
 }

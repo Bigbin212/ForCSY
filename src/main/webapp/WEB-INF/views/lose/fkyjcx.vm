@@ -10,12 +10,14 @@
 <link rel="stylesheet" href="${springPath}/static/css/common/easyui_v1.0.css" />
 <link rel="stylesheet" href="${springPath}/static/showLoading/showLoading.css"/>
 <link rel="stylesheet" href="${springPath}/static/css/common/fishBone.css" />
+<link rel="stylesheet" href="${springPath}/static/plugins/jquery/jquery.alert.css" />
 <link rel="stylesheet" href="${springPath}/static/css/common/ued.css"/>
 <script type="text/javascript" src="${springPath}/static/plugins/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="${springPath}/static/plugins/jquery/dist/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="${springPath}/static/plugins/jquery/dist/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="${springPath}/static/plugins/jquery/dist/jquery.SuperSlide.2.1.1.js"></script>
 <script type="text/javascript" src="${springPath}/static/DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="${springPath}/static/plugins/jquery/jquery.alert.js"></script>
 <script type="text/javascript" src="${springPath}/static/js/common/common.js"></script>
 <script src="${springPath}/static/showLoading/jquery.showLoading.min.js"></script>
 <script type="text/javascript" src="${springPath}/static/js/lose/fishBone.js"></script>
@@ -23,7 +25,7 @@
 </head>
 <body>
 	<div class="whole-div">
-		<div class="main-top" style="float:left;border: 1px solid #d1d1d1;width: 98.2%;margin: 10px 10px 10px 10px;">
+		<div class="main-top" style="float:left;border: 1px solid #d1d1d1;width: 99.6%;">
 			<div class="titleDiv" style="text-align: center;">
 				<span class="pageTitle">反馈意见查询</span>
 			</div>
@@ -69,7 +71,7 @@
 				</table>
 			</div>
 		</div>
-		<div class="main-top1" style="float:left;border: 1px solid #d1d1d1;margin: 10px 10px 10px 10px;">
+		<div class="main-top1" style="float:left;border: 1px solid #d1d1d1;">
 				<div class="titleDiv" style="text-align: center;">
 					<span class="pageTitle" style="padding-left: 5%;">反馈意见查询列表</span>
 					<div style="float: right;padding-top: 5px;">

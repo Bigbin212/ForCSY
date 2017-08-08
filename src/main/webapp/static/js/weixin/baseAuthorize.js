@@ -6,7 +6,7 @@
 $(function(){
 
 	var appid = $("#wx_appid").val();
-	var redirect_uri = location.origin + rootPath + "/wx/index";
+	var redirect_uri = location.origin + rootPath + "wx/accountInfo";
 	var scope = "snsapi_base";
 	var accessUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+
 			"&redirect_uri="+ encodeURIComponent(redirect_uri) +"&response_type=code" +

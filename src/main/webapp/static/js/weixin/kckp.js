@@ -72,6 +72,16 @@ app.controller("toastVoiceController", function($scope, $stateParams, $location)
 
 app.controller("formRstController", function($scope, $stateParams, $state, $location) {
 	$scope.errMsg = $stateParams.errMsg;
+	$location.path("").replace();
+//	//提交反馈页面禁止刷新
+//	if($scope.errMsg === undefined){
+//		$state.go("/");
+//	}
+//	$scope.rtnForm = function(){
+//		$state.go("/");
+//	};
+	
+//	$scope.errMsg = $stateParams.errMsg;
 	//提交反馈页面禁止刷新
 	if($scope.errMsg === undefined){
 		$state.go("/");

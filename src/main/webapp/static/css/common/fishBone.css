@@ -110,7 +110,7 @@ color: #767676;
 /**prev next*/
 .fishBone .prev {
 	position: absolute;
-	top: 46%;
+	top: 45.5%;
 	left: 0;
 	display: inline-block;
 	width: 20px;
@@ -127,7 +127,7 @@ background-position-y: -28px;
 }
 .fishBone .next {
 	position: absolute;
-	top: 46%;
+	top: 45.5%;
 	right: 0;
 	display: inline-block;
 	width: 20px;

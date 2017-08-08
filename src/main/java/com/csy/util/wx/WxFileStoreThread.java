@@ -56,7 +56,7 @@ public class WxFileStoreThread extends Thread{
 						URL urlGet = new URL(fileDownPath);
 						URLConnection connection = (URLConnection) urlGet.openConnection();
 						connection.setConnectTimeout(2000);
-						connection.setReadTimeout(1000);
+						connection.setReadTimeout(30000);
 						connection.connect();
 						InputStream is = connection.getInputStream();
 						

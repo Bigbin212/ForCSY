@@ -10,9 +10,6 @@
 	    		<div class="col-lg-6 col-md-6">
 					<div class="pull-right">
 						<div class="btn-group btn-group-xs">
-			    			<div style="cursor:pointer;padding-top: 5px;float: left;" onclick="openNewWindow()">
-			    				<font color='#41D4FF'>反馈意见</font>
-			    			</div>
 							#if($user)
 								<div class="usermenu" style="display:inline-block;">
 									<button id="user-name" class="btn btn-xs btn-link" >

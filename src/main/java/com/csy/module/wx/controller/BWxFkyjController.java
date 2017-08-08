@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.csy.module.wx.entity.BWxFkyj;
@@ -35,8 +36,8 @@ public class BWxFkyjController {
 		map.put("fkyjs", DmxUtil.getDmxList(20001));
 		return new ModelAndView("/weixin/fkyj", map);
 	}
-	
-	@RequestMapping("/addFkyj")
+
+ @RequestMapping(method = RequestMethod.POST)
 	public void addKckpInfo( HttpServletRequest request, HttpServletResponse response, 
 			@RequestBody BWxFkyj fkyj) throws IOException{
 		//返回的json数据

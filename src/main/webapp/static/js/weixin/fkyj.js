@@ -39,16 +39,30 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     	controller: 'formRstController'
     }).state('/',{
     	url: '',
-    	template: ''
+    	template: '',
+    	controller: function(){
+    		$("form[name='registerForm']").show();
+    	}
     });
 });
 
 app.controller("formRstController", function($scope, $stateParams, $state, $location) {
 	$scope.errMsg = $stateParams.errMsg;
 	$location.path("").replace();
+//	//提交反馈页面禁止刷新
+//	if($scope.errMsg === undefined){
+//		$state.go("/");
+//	}
+//	$scope.rtnForm = function(){
+//		$state.go("/");
+//	};
+	
+//	$scope.errMsg = $stateParams.errMsg;
 	//提交反馈页面禁止刷新
 	if($scope.errMsg === undefined){
 		$state.go("/");
+	}else{
+		$("form[name='registerForm']").hide();
 	}
 	$scope.rtnForm = function(){
 		$state.go("/");
@@ -211,22 +225,56 @@ app.controller("myCtrl", function($scope, $state, $timeout, $interval, $http, $i
 		        		alert("最多可上传十张图片!");
 		        		break;
 		        	}
-		        	$scope.$apply(function(){
-		        		$scope.xxtps.push({
-			        		uploadUrl: localIds[i],
-			        		uploadSuccess: false,
-			        		uploadError: 0,
-			        		uploadWaiting: true,
-			        		uploading: false,
-			        		serverId: undefined
-			        	});
-		        		
-		        		$scope.registerForm.xxtpNum.$pristine = false;
-		        		$scope.registerForm.xxtpNum.$dirty = true;
-		        	});
+//		        	$scope.$apply(function(){
+//		        		$scope.xxtps.push({
+//			        		uploadUrl: localIds[i],
+//			        		uploadSuccess: false,
+//			        		uploadError: 0,
+//			        		uploadWaiting: true,
+//			        		uploading: false,
+//			        		serverId: undefined
+//			        	});
+//		        		
+//		        		$scope.registerForm.xxtpNum.$pristine = false;
+//		        		$scope.registerForm.xxtpNum.$dirty = true;
+//		        	});
+		        	$scope.$apply(function(i){
+		        		return function(){
+			        		if(window.__wxjs_is_wkwebview){
+			        			wx.getLocalImgData({
+			        				localId: localIds[i], // 图片的localID
+			        				success: function (res) {
+			        					$scope.$apply(function(){
+				        					var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+				        					$scope.xxtps.push({
+				        						iosUploadUrl: localData,
+								        		uploadUrl: localIds[i],
+								        		uploadSuccess: false,
+								        		uploadError: 0,
+								        		uploadWaiting: true,
+								        		uploading: false
+								        	});
+							        		if(i==localIds.length-1){
+							    		        uploadImageList(localIds);
+							        		}
+			        					});
+			        				}
+			        			});
+			        		}else{
+				        		$scope.xxtps.push({
+					        		uploadUrl: localIds[i],
+					        		uploadSuccess: false,
+					        		uploadError: 0,
+					        		uploadWaiting: true,
+					        		uploading: false
+					        	});
+				        		if(i==localIds.length-1){
+				    		        uploadImageList(localIds);
+				        		}
+			        		}
+		        		};
+		        	}(i));
 		        }
-		        
-		        uploadImageList(localIds);
 		    }
 		});
 	};
@@ -261,7 +309,7 @@ app.controller("myCtrl", function($scope, $state, $timeout, $interval, $http, $i
 					$scope.submitting = true;
 					$http({
 						method: "post",
-						url: rootPath + "/wx/fkyj/addFkyj",
+						url: rootPath + "/wx/fkyj",
 						data: submitInfo
 					}).success(function(data,status,config,headers){
 						$scope.submitting = false;

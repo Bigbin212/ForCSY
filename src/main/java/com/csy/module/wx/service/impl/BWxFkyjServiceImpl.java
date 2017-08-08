@@ -5,14 +5,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Resource;
-
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.csy.module.wx.dao.BWxFkyjMapper;
-import com.csy.module.wx.dao.BWxUserMapper;
 import com.csy.module.wx.entity.BWxFkyj;
 import com.csy.module.wx.entity.BWxFkyjExample;
 import com.csy.module.wx.service.service.BWxFkyjService;

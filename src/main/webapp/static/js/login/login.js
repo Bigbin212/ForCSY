@@ -411,8 +411,11 @@ function ResetCookie() {
 	SetCookie(usr, null, expdate); 
 } 
 function windowOpen(){
-	$.post(rootPath+"/lose.do", {param:$('#account').val()}, function(response) {
-		window.open(rootPath+"/lose.do","_self");
+//	$.post(rootPath+"/lose.do", {param:$('#account').val()}, function(response) {
+//		window.open(rootPath+"/lose.do","_self");
+//    });
+	$.post(rootPath+"/frame_main.do", {param:$('#account').val()}, function(response) {
+		window.open(rootPath+"/frame_main.do","_self");
     });
 }
 

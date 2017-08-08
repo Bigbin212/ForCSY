@@ -241,3 +241,44 @@ ALTER TABLE csy.b_accident_info ADD imgReUpload_index varchar(64) default NULL C
  */
 ALTER TABLE csy.b_accident_info modify imgReUpload_index varchar(1024) default NULL COMMENT '重传图片，多个以逗号分割';
 ALTER TABLE csy.b_accident_info ADD imgReUploaded_index varchar(1024) default NULL COMMENT '已重传图片，多个以逗号分割';
+
+/**
+ * 2017-07-19
+ * 违法举报表单
+ */
+CREATE TABLE `csy`.`b_illegal_tipoff` (
+  `id` VARCHAR(64) NOT NULL COMMENT '主键',
+  `fk_wx_openid` VARCHAR(64) NOT NULL COMMENT '微信openID',
+  `plate_number` VARCHAR(16) NULL COMMENT '违法车牌号',
+  `longitude` VARCHAR(128) NULL DEFAULT NULL COMMENT '事故发生的地点的经度',
+  `latitude` VARCHAR(128) NULL DEFAULT NULL COMMENT '事故发生的地点的纬度',
+  `illegal_position` VARCHAR(128) NULL COMMENT '违法地点描述',
+  `illegal_act` VARCHAR(128) NULL DEFAULT NULL COMMENT '违法行为',
+  `illegal_images` VARCHAR(1024) NULL DEFAULT NULL COMMENT '违法抓拍图片',
+  `occurrence_time` DATETIME NULL COMMENT '违法时间',
+  `status` VARCHAR(16) NULL DEFAULT 0 COMMENT '记录状态(0:初始状态)',
+  `name` VARCHAR(16) NULL COMMENT '举报人',
+  `idcard` VARCHAR(32) NULL COMMENT '身份证号',
+  `phone` VARCHAR(16) NULL COMMENT '联系电话',
+  PRIMARY KEY (`id`))
+COMMENT = '违法举报(随手抓拍)';
+----新增菜单表2017-07-25
+DROP TABLE IF EXISTS `b_qj_menu`;
+CREATE TABLE `b_qj_menu` (
+  `XH` varchar(32) NOT NULL COMMENT '序号',
+  `FJD` varchar(32) NOT NULL COMMENT '父节点',
+  `JDYWM` varchar(32) NOT NULL COMMENT '节点英文名',
+  `JDZWM` varchar(256) NOT NULL COMMENT '节点中文名',
+  `JDZWMQC` varchar(256) DEFAULT NULL COMMENT '节点中文名全称',
+  `JDJB` int(2) NOT NULL COMMENT '节点类型 0:系统 1:子系统 2:一级菜单 3:二级菜单',
+  `SFXS` int(2) DEFAULT NULL COMMENT '是否显示 0:菜单不显示 1:菜单显示',
+  `SFXTSY` int(2) DEFAULT NULL COMMENT '是否系统首页0:否 1:是',
+  `SFMKSY` int(2) DEFAULT NULL COMMENT '是否模块首页0:否 1:是',
+  `XSSX` int(2) DEFAULT NULL COMMENT '显示顺序',
+  `YLZD1` varchar(128) DEFAULT NULL,
+  `YLZD2` varchar(128) DEFAULT NULL,
+  `YLZD3` varchar(128) DEFAULT NULL,
+  `SFTC` int(2) DEFAULT NULL COMMENT '是否弹出 1：弹出 0或其他：不弹出',
+  `LJYMMC` varchar(32) DEFAULT NULL COMMENT '节点参数',
+  PRIMARY KEY (`XH`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

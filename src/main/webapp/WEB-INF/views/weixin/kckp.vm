@@ -27,8 +27,13 @@
                     <div class="weui-cell__bd">
                         <input class="weui-input position" ng-model="position" type="input" placeholder="事故发生位置定位" readonly="true" 
 							ng-init="position='定位中,请稍候...'" ng-click="getPosition();" ng-class="{'positionFail':!!positionFail}"/>
-                        <input ng-model="info.longitude" name="longitude" type="hidden" validator="required"/>
-                        <input ng-model="info.latitude" name="latitude" type="hidden" validator="required"/>
+							
+                        <input ng-model="info.longitude" name="longitude" type="hidden"/>
+                        <input ng-model="info.latitude" name="latitude" type="hidden"/>
+						<!--
+                            <input ng-model="info.longitude" name="longitude" type="hidden" validator="required"/>
+                            <input ng-model="info.latitude" name="latitude" type="hidden" validator="required"/>
+						-->
                     </div>
     				<div class="weui-cell__ft" ng-click="openLocation(info.longitude,info.latitude);">
                         <span class="weui-icon-position"></span>

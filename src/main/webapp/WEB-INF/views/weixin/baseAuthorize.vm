@@ -12,7 +12,6 @@
 	</head>
 	<body ontouchstart>
 		<input id="wx_appid" value="${wx_appid}" type="hidden"/>
-		
 		<!--
 			<script src="${springPath}/static/js/weixin/zepto.min.js"></script>
 		-->

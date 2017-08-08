@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
         <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.1/weui.min.css"/>
-        <link rel="stylesheet" href="${springPath}/static/css/weixin/fkyj.css?a=1112"/>
+        <link rel="stylesheet" href="${springPath}/static/css/weixin/fkyj.css"/>
 	</head>
 	<body ng-app="myApp" ng-controller="myCtrl" style="display:none;">
 		
@@ -51,7 +51,7 @@
 										uploaderFile {{editUploder?'shake-little':''}}" 
 										ng-repeat="xxtp in xxtps" 
 										ng-click="picClick($index)"
-										style="background-image:url('{{xxtp.uploadUrl}}');">
+										ng-style="{'background-image':'url('+ (xxtp.iosUploadUrl || xxtp.uploadUrl)+')'}">
 										<div ng-hide="editUploder">
                                             <div ng-hdie="xxtp.uploadSuccess" class="weui-uploader__file-content">
                                                 <i ng-show="xxtp.uploadError && !xxtp.uploadWaiting" class="weui-icon-warn"></i>
@@ -145,8 +145,8 @@
 		<script src="${springPath}/static/plugins/angularJS/angular-validation.js"></script>
 		<script src="${springPath}/static/plugins/angularJS/angular-validation-rule.js"></script>
 		<script src="${springPath}/static/js/common/wx-common.js"></script>
-        <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+        <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
         <script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
-		<script src="${springPath}/static/js/weixin/fkyj.js?a=112"></script>
+		<script src="${springPath}/static/js/weixin/fkyj.js"></script>
 	</body>
 </html>

@@ -107,4 +107,13 @@ INSERT INTO `b_user_info` VALUES ('hualai', '1', null, null, null, null, null, n
 delete from b_xtpz_dmx where dmlxbh = 20001;
 INSERT INTO `b_xtpz_dmx` (`id`,`dmlxbh`,`dmxywm`,`dmxzwm`,`dmxz`,`p_dmxywm`,`sfxs`,`sfky`,`sfmr`,`xssx`,`dmxms`,`dmxkz`) VALUES (NULL,'20001','系统异常','系统异常','1',NULL,1,1,0,1,'系统异常',NULL);
 INSERT INTO `b_xtpz_dmx` (`id`,`dmlxbh`,`dmxywm`,`dmxzwm`,`dmxz`,`p_dmxywm`,`sfxs`,`sfky`,`sfmr`,`xssx`,`dmxms`,`dmxkz`) VALUES (NULL,'20001','优化建议','优化建议','2',NULL,1,1,0,2,'优化建议',NULL);
-
+/**
+ * 2017-07-25
+ * 菜单初始化脚本
+ */
+INSERT INTO `b_qj_menu` VALUES ('1', 'KCKPGLPT', 'KCKP', '快处快赔', '快处快赔', '2', '1', '0', '0', '0', null, null, null, '0', null);
+INSERT INTO `b_qj_menu` VALUES ('2', 'KCKP', 'KCKPGL', '快处快赔管理 ', '快处快赔管理', '3', '1', null, null, '0', null, null, null, '0', 'lose.do');
+INSERT INTO `b_qj_menu` VALUES ('3', 'ITS', 'KCKPGLPT', '快处快赔管理平台', '快处快赔管理平台', '1', '1', '0', '0', '0', '', '', '', null, '');
+INSERT INTO `b_qj_menu` VALUES ('4', 'KCKP', 'FKYJ', '反馈意见管理', '反馈意见管理', '3', '1', null, null, '1', null, null, null, '0', 'fkyj.do');
+INSERT INTO `b_qj_menu` VALUES ('5', 'KCKPGLPT', 'WFJB', '违法举报', '违法举报', '2', '1', '0', '0', '0', null, null, null, '0', null);
+INSERT INTO `b_qj_menu` VALUES ('6', 'WFJB', 'WFJBGL', '违法举报管理', '违法举报管理', '3', '1', null, null, '0', null, null, null, '0', 'WFJBGL');

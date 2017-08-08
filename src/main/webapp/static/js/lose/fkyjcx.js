@@ -12,8 +12,8 @@ function initResize(){
 	var  winWidth = $(window).width();//窗口宽度
 	var  winHeight = $(window).height();//窗口高度
 	$(".whole-div").width(winWidth); //整体的宽度
-	$(".whole-div").height(winHeight);//整体的高度
-	$(".main-top").height((winHeight/100)*20);//整体的高度
+	$(".whole-div").height(winHeight - 20);//整体的高度
+	$(".main-top").height((winHeight/100)*19);//整体的高度
 	$('#dataGrid').height($('.main-top').height() - $('.titleDiv').height());
 	$('.znjt-search-table').height($('#dataGrid').height());
 	$('.main-top1').height($('.whole-div').height() - $('.main-top').height()-35);
@@ -78,12 +78,12 @@ function makeFishBone(param){
 		dataType: "json",
 		success: function(data){
 			if(data.error != ""){
-				alert(data.error);
+				jAlert(data.error);
 				return ;
 			}else{
 				$(".container").hideLoading();
 				if(data.rows.length == 0){
-					alert("没有查询到数据");
+					jAlert("没有查询到数据");
 					return ;
 				}
 				$(".fishBone").fishBone(data.rows);
@@ -124,7 +124,7 @@ function makeDataGrid(){
 		        		  return "<div class='text-resize' title='"+value+"'>"+value+"</div>";
 		        	  }
 		          },
-		          {field:'operation',title:'操作',align : 'center',width:'8%',
+		          {field:'operation',title:'操作',align : 'center',width:'9.8%',
 			          	formatter:function(value,rowData,rowIndex){
 			          		var ret = "";
 			          		if(rowData.image == ""){
@@ -145,7 +145,7 @@ function makeDataGrid(){
 		onSelect : function(rowIndex, rowData) {},
 		onLoadSuccess : function(reData) {
 			if(reData.error != ""){
-				alert('提示', reData.error);
+				jAlert('提示', reData.error);
 				return ;
 			}
 		},

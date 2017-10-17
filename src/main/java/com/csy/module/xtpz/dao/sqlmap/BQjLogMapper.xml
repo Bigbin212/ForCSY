@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.csy.module.xtpz.dao.BQjLogMapper">
+	<resultMap id="BaseResultMap" type="com.csy.module.xtpz.entity.BQjLog">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="f_account" property="fAccount" jdbcType="VARCHAR" />
+		<result column="ip" property="ip" jdbcType="VARCHAR" />
+		<result column="model" property="model" jdbcType="VARCHAR" />
+		<result column="oper_type" property="operType" jdbcType="VARCHAR" />
+		<result column="oper_rst" property="operRst" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		id, f_account, ip, model, oper_type, oper_rst, description,
+		createtime
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.csy.module.xtpz.entity.BQjLogExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		'true' as QUERYID,
+		<include refid="Base_Column_List" />
+		from b_qj_log
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from b_qj_log
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		b_qj_log
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.csy.module.xtpz.entity.BQjLogExample">
+		delete from b_qj_log
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.csy.module.xtpz.entity.BQjLog">
+		insert into b_qj_log (id,
+		f_account, ip,
+		model, oper_type, oper_rst,
+		description, createtime)
+		values (#{id,jdbcType=INTEGER}, #{fAccount,jdbcType=VARCHAR},
+		#{ip,jdbcType=VARCHAR},
+		#{model,jdbcType=VARCHAR},
+		#{operType,jdbcType=VARCHAR}, #{operRst,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.csy.module.xtpz.entity.BQjLog">
+		insert into b_qj_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="fAccount != null">
+				f_account,
+			</if>
+			<if test="ip != null">
+				ip,
+			</if>
+			<if test="model != null">
+				model,
+			</if>
+			<if test="operType != null">
+				oper_type,
+			</if>
+			<if test="operRst != null">
+				oper_rst,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+			<if test="createtime != null">
+				createtime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="fAccount != null">
+				#{fAccount,jdbcType=VARCHAR},
+			</if>
+			<if test="ip != null">
+				#{ip,jdbcType=VARCHAR},
+			</if>
+			<if test="model != null">
+				#{model,jdbcType=VARCHAR},
+			</if>
+			<if test="operType != null">
+				#{operType,jdbcType=VARCHAR},
+			</if>
+			<if test="operRst != null">
+				#{operRst,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.csy.module.xtpz.entity.BQjLogExample"
+		resultType="java.lang.Integer">
+		select count(*) from b_qj_log
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update b_qj_log
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.fAccount != null">
+				f_account = #{record.fAccount,jdbcType=VARCHAR},
+			</if>
+			<if test="record.ip != null">
+				ip = #{record.ip,jdbcType=VARCHAR},
+			</if>
+			<if test="record.model != null">
+				model = #{record.model,jdbcType=VARCHAR},
+			</if>
+			<if test="record.operType != null">
+				oper_type = #{record.operType,jdbcType=VARCHAR},
+			</if>
+			<if test="record.operRst != null">
+				oper_rst = #{record.operRst,jdbcType=VARCHAR},
+			</if>
+			<if test="record.description != null">
+				description = #{record.description,jdbcType=VARCHAR},
+			</if>
+			<if test="record.createtime != null">
+				createtime = #{record.createtime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update b_qj_log
+		set id = #{record.id,jdbcType=INTEGER},
+		f_account = #{record.fAccount,jdbcType=VARCHAR},
+		ip = #{record.ip,jdbcType=VARCHAR},
+		model = #{record.model,jdbcType=VARCHAR},
+		oper_type = #{record.operType,jdbcType=VARCHAR},
+		oper_rst = #{record.operRst,jdbcType=VARCHAR},
+		description = #{record.description,jdbcType=VARCHAR},
+		createtime = #{record.createtime,jdbcType=TIMESTAMP}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.csy.module.xtpz.entity.BQjLog">
+		update b_qj_log
+		<set>
+			<if test="fAccount != null">
+				f_account = #{fAccount,jdbcType=VARCHAR},
+			</if>
+			<if test="ip != null">
+				ip = #{ip,jdbcType=VARCHAR},
+			</if>
+			<if test="model != null">
+				model = #{model,jdbcType=VARCHAR},
+			</if>
+			<if test="operType != null">
+				oper_type = #{operType,jdbcType=VARCHAR},
+			</if>
+			<if test="operRst != null">
+				oper_rst = #{operRst,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				description = #{description,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				createtime = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.csy.module.xtpz.entity.BQjLog">
+		update b_qj_log
+		set f_account = #{fAccount,jdbcType=VARCHAR},
+		ip = #{ip,jdbcType=VARCHAR},
+		model = #{model,jdbcType=VARCHAR},
+		oper_type =
+		#{operType,jdbcType=VARCHAR},
+		oper_rst = #{operRst,jdbcType=VARCHAR},
+		description = #{description,jdbcType=VARCHAR},
+		createtime = #{createtime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="selectCzrzByqueryParams" resultMap="BaseResultMap"
+		parameterType="String">
+		select
+		<include refid="Base_Column_List" />
+		from b_qj_log
+		<where>
+			<if test="kssj != null and kssj != ''">
+				and createtime &gt;= #{kssj,jdbcType=VARCHAR}
+			</if>
+			<if test="jssj != null and jssj != ''">
+				and createtime &lt;= #{jssj,jdbcType=VARCHAR}
+			</if>
+			<if test="operrst != null and operrst != ''">
+				and oper_rst = #{operrst,jdbcType=VARCHAR}
+			</if>
+			<if test="faccount != null and faccount != ''">
+				and f_account like  '%${faccount}%'
+			</if>
+		</where>
+		order by createtime desc
+		
+	
+
+	</select>
+
+
+	<select id="countByParams" resultType="java.lang.Integer"
+		parameterType="String">
+		select count(*)
+		from b_qj_log
+		<where>
+			<if test="kssj != null and kssj != ''">
+				and createtime &gt;= #{kssj,jdbcType=VARCHAR}
+			</if>
+			<if test="jssj != null and jssj != ''">
+				and createtime &lt;= #{jssj,jdbcType=VARCHAR}
+			</if>
+			<if test="operrst != null and operrst != ''">
+				and oper_rst = #{operrst,jdbcType=VARCHAR}
+			</if>
+			<if test="faccount != null and faccount != ''">
+				and f_account like  '%${faccount}%'
+			</if>
+		</where>
+
+
+	</select>
+</mapper>

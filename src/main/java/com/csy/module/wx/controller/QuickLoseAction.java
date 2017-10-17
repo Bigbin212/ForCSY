@@ -52,7 +52,7 @@ public class QuickLoseAction {
 	 * @return
 	 * @throws Exception 
 	 */
-	@RequestMapping("/lose.do")
+	@RequestMapping("/lose")
 	public ModelAndView register(String param,HttpServletRequest req) throws Exception{
 		  Map<String, Object> paramsMap  = new HashMap<String, Object>();
 		  Calendar calendar = Calendar.getInstance();

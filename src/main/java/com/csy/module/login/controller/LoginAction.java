@@ -29,12 +29,12 @@ import com.csy.module.user.entity.BUserAccount;
 import com.csy.module.user.service.service.BuserAccountService;
 import com.csy.module.wx.entity.BQjMenu;
 import com.csy.module.wx.service.service.BQjMenuService;
-import com.csy.util.GetExtranetIp;
 import com.csy.util.JSONUtil;
 import com.csy.util.ObjectUtils;
 import com.csy.util.SecurityCodeImg;
 import com.csy.util.StringUtils;
 import com.csy.util.TimeFormatUtil;
+import com.csy.util.account.UserUtil;
 import com.csy.util.algorithm.MD5Util;
 import com.csy.util.algorithm.RSAUtil;
 import com.csy.util.exception.account.EmailNotActivatedException;
@@ -80,7 +80,7 @@ public class LoginAction {
 						jsonObject.put("errorMsg", "帐号或密码不正确!");
 						Flag ++;
 					}else{
-						if(checkIp(account)){//验证通过
+						if(checkIp(account, req)){//验证通过
 							jsonObject.put("success", "验证通过!");
 							jsonObject.put("account_id", user.getId());
 							req.getSession(true).setAttribute("user", user);
@@ -102,7 +102,7 @@ public class LoginAction {
 					jsonObject.put("errorMsg", "帐号或密码不正确!");
 					Flag ++;
 				}else{
-					if(checkIp(account)){//验证通过
+					if(checkIp(account, req)){//验证通过
 						jsonObject.put("success", "验证通过!");
 						jsonObject.put("account_id", user.getId());
 						req.getSession(true).setAttribute("user", user);
@@ -197,7 +197,7 @@ public class LoginAction {
 	 * @param account
 	 * @return
 	 */
-	public boolean checkIp(String account){
+	public boolean checkIp(String account,HttpServletRequest request){
 		boolean flag = false;
 		try {
 			Properties properties = PropertiesLoaderUtils.loadAllProperties("userNet.properties");
@@ -206,11 +206,15 @@ public class LoginAction {
 				flag = true;
 				logger.error("此用户没有绑定ip:"+account);
 			}else{
-				String ip = GetExtranetIp.getWebIp();
-				if(userIp.equals(ip)){
-					flag = true;
-				}else{
-					flag = false;
+				String ip = UserUtil.getIpByHttpRequest(request);
+				String[] userIpArray = userIp.split(",");
+				for(int i = 0; i < userIpArray.length; i++){
+					if(ip.equals(userIpArray[i])){
+						flag = true;
+						break;
+					}else{
+						flag = false;
+					}
 				}
 			}
 		} catch (IOException e) {

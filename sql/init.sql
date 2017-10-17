@@ -117,3 +117,35 @@ INSERT INTO `b_qj_menu` VALUES ('3', 'ITS', 'KCKPGLPT', '快处快赔管理平�
 INSERT INTO `b_qj_menu` VALUES ('4', 'KCKP', 'FKYJ', '反馈意见管理', '反馈意见管理', '3', '1', null, null, '1', null, null, null, '0', 'fkyj.do');
 INSERT INTO `b_qj_menu` VALUES ('5', 'KCKPGLPT', 'WFJB', '违法举报', '违法举报', '2', '1', '0', '0', '0', null, null, null, '0', null);
 INSERT INTO `b_qj_menu` VALUES ('6', 'WFJB', 'WFJBGL', '违法举报管理', '违法举报管理', '3', '1', null, null, '0', null, null, null, '0', 'WFJBGL');
+
+
+/**
+ * date: 2017-09-01
+ * author: guwenwen
+ * description: 新增日志类型
+*/
+INSERT INTO `b_xtpz_dmlx` (`dmlxbh`, `ywm`, `zwm`, `dmlxms`) VALUES ('30001', 'logModel', '日志模块', '日志模块');
+INSERT INTO `b_xtpz_dmlx` (`dmlxbh`, `ywm`, `zwm`, `dmlxms`) VALUES ('30002', 'logType', '日志类型', '日志类型');
+INSERT INTO `b_xtpz_dmlx` (`dmlxbh`, `ywm`, `zwm`, `dmlxms`) VALUES ('30003', 'logOperRst', '日志操作', '日志操作结果');
+
+
+
+/**
+ * date: 2017-09-01
+ * author: guwenwen
+ * description: 新增日志代码项
+*/
+
+INSERT INTO `b_xtpz_dmx` VALUES (null, '30001', '审核模块', '审核模块', '1', null, '1', '1', '0', '1', '审核模块', null);
+INSERT INTO `b_xtpz_dmx` VALUES (null, '30002', '审核状态更新', '审核状态更新', '1', null, '1', '1', '0', '1', '违法举报审核状态更新', null);
+INSERT INTO `b_xtpz_dmx` VALUES (null, '30003', '已确认', '已确认', '1', null, '1', '1', '0', '1', '确认违法', null);
+INSERT INTO `b_xtpz_dmx` VALUES (null, '30003', '已忽略', '已忽略', '2', null, '1', '1', '0', '1', '忽略违法', null);
+
+
+/**
+ * date: 2017-09-26
+ * author: guwenwen
+ * description: 菜单新增
+*/
+INSERT INTO `b_qj_menu` VALUES ('7', 'KCKPGLPT', 'GZSB', '故障上报', '故障上报', '2', '1', '0', '0', '0', null, null, null, '0', null);
+INSERT INTO `b_qj_menu` VALUES ('8', 'GZSB', 'SBGZSB', '设备故障上报', '设备故障上报', '3', '1', null, null, '0', null, null, null, '0', 'SBGZSB');

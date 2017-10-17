@@ -129,7 +129,10 @@ function makeLeftTable(data){
 			var j = i + 1;
 			$("#mainDiv1").append("<div id='main"+i+"' class='item_over' onmouseover='sizeOver("+i+")' onmouseout='sizeOut("+i+")' style='width: 100%;height:100px;border: 1px solid #d1d1d1;cursor:pointer' onclick='onClick(this,"+JSON.stringify(item)+","+i+")'></div>");
 			$("#main"+i).append("<div id='divDiv"+i+"' style='width:20%;float: left;margin-top: 15px;position: relative'></div>");
-			$("#divDiv"+i).append("<div id='text' style='position: absolute; top: 25px; left: 45%;'><p>"+j+"</p></div>");
+			$("#divDiv"+i).append("<div id='text' style='position: absolute;height:100%;width:93%;' align='center'><p style='margin-top:35%'>"+j+"</p></div>");
+			/*$('#text').height($('#divDiv').height());
+			$('#text').width($(('#divDiv').width()/100)*25);*/
+			
 			$("#divDiv"+i).append("<img  id='images' src='"+rootPath+"/static/img/common/background.png' />");
 			$("#main"+i).append("<div id='divTable"+i+"' style='width:80%;float: right;margin-top: 5px;'></div>");
 			$("#divTable"+i).append("<table id='table"+i+"'></table>");

@@ -282,3 +282,34 @@ CREATE TABLE `b_qj_menu` (
   `LJYMMC` varchar(32) DEFAULT NULL COMMENT '节点参数',
   PRIMARY KEY (`XH`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+----操作日志表2017-08-28
+CREATE TABLE `csy`.`b_qj_log` (
+  `id` INT NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+  `f_account` VARCHAR(16) NULL COMMENT '操作账户',
+  `ip` VARCHAR(16) NULL COMMENT 'ip地址',
+  `model` VARCHAR(8) NULL COMMENT '模块',
+  `oper_type` VARCHAR(8) NULL COMMENT '操作类型',
+  `oper_rst` VARCHAR(8) NULL COMMENT '操作结果(自行定义)',
+  `description` VARCHAR(128) NULL COMMENT '操作描述',
+  `createtime` DATETIME NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
+  PRIMARY KEY (`id`))
+COMMENT = '全局日志操作表';
+
+----设备故障上报表2017-9-1
+DROP TABLE IF EXISTS `b_failure_report`;
+CREATE TABLE `b_failure_report` (
+  `id` varchar(64) NOT NULL COMMENT '故障id',
+  `fk_wx_openid` varchar(64) NOT NULL DEFAULT '微信openid',
+  `phone` varchar(16) DEFAULT NULL COMMENT '联系电话',
+  `upload_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '上传时间',
+  `upload_position` varchar(128) DEFAULT NULL COMMENT '上传地点',
+  `longitude` varchar(128) DEFAULT NULL COMMENT '经度',
+  `latitude` varchar(128) DEFAULT NULL COMMENT '纬度',
+  `fault_description` varchar(128) DEFAULT NULL COMMENT '故障描述',
+  `fault_images` varchar(1024) DEFAULT NULL COMMENT '故障图片',
+  `audit_status` varchar(16) DEFAULT NULL COMMENT '审核状态',
+  `process_status` varchar(16) DEFAULT NULL COMMENT '处理状态',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

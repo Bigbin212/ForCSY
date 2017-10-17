@@ -27,14 +27,15 @@ public class WxAccessFilter implements Filter {
     HttpServletResponse res = (HttpServletResponse) response;  
     
     String url = req.getRequestURI();
-    if(url.contains("/wx/") && !url.contains("/wx/baseAuthorize") && !url.contains("/wx/kckpTest")){
+    if(url.contains("/wx/") && !url.contains("/wx/baseAuthorize") && !url.contains("/wx/userinfoAuthorize") && !url.contains("/wx/accountInfo")){
       HttpSession session = req.getSession(true);
       BWxUser user = (BWxUser)session.getAttribute("bWxUser");
       if(user == null){
         session.setAttribute("wx_targetUrl", url);
         res.sendRedirect(session.getServletContext().getContextPath() + "/wx/baseAuthorize");
+      }else{
+        chain.doFilter(req, res);
       }
-      chain.doFilter(req, res);
     }else{
       chain.doFilter(req, res);
     }
